@@ -1,23 +1,20 @@
 def Gauss(arr,n,signifcantFigure):
-    print(arr)
-    print (n)
-    print (signifcantFigure)
+    pass
     
-
 def GaussJordan(arr,n,signifcantFigure):
-    print("2")
+    pass
 
 def Doolittle(arr,n,signifcantFigure):
-    print("3")
+    pass
 
 def Crout(arr,n,signifcantFigure):
-    print("4")
+    pass
 
 def Cholesky(arr,n,signifcantFigure):
-    print("5")
+    pass
 
 def Jacobi(arr,n,signifcantFigure,initialGuess,NumberOfIterations,AbseluteRelativeError,flag):
-    print("6")
+    pass
 
 def GaussSeidel(arr,n,signifcantFigure,initialGuess,NumberOfIterations,AbseluteRelativeError,flag):
-    print("7")
+    pass
