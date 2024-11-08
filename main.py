@@ -1,6 +1,6 @@
-import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QPushButton
-from PyQt6.QtWidgets import QWidget, QStackedWidget, QVBoxLayout
+
+from PyQt6.QtWidgets import *
+from PyQt6.QtWidgets import *
 
 from GUI.methods_screen import Methods
 from GUI.LU_screen import LU

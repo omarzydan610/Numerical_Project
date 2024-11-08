@@ -28,7 +28,7 @@ class LU(QWidget):
             QPushButton {
                 min-width: 600px;
                 height: 50px;
-                background-color: lightblue;
+                background-color: #439A97;
                 color: black;
                 border-radius: 5px;
                 padding: 10px;
@@ -36,7 +36,7 @@ class LU(QWidget):
                 font-size: 40px;
             }
             QPushButton:hover {
-                background-color: #ddf3fa;
+                background-color: #62B6B7;
             }
         """)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)

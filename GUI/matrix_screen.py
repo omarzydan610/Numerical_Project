@@ -185,6 +185,9 @@ class Matrix(QWidget):
         self.generate_matrix()
         self.generate_intial_guess()
         
+    
+    
+        
     def generate_intial_guess(self):
         
         clear_layout(self.intial_guess_layout)
@@ -192,11 +195,13 @@ class Matrix(QWidget):
         if(not self.text_field_2.isVisible()):
             return
         matrix_size = self.size_input.value()
+        self.initial_Guess=[]
         
         for i in range(matrix_size):
             temp=QVBoxLayout()
             temp.setAlignment(Qt.AlignmentFlag.AlignCenter)
             temp2=QLabel(f"X{i+1}")
+            temp2.setAlignment(Qt.AlignmentFlag.AlignCenter)
             temp2.setStyleSheet("font-size:14px")
             temp.addWidget(temp2)
             input_field = QLineEdit("0.0", self)
@@ -216,7 +221,7 @@ class Matrix(QWidget):
             validator.setTop(float('inf'))
             input_field.setValidator(validator)
             temp.addWidget(input_field)
-            
+            self.initial_Guess.append(input_field.text())
             self.intial_guess_layout.addLayout(temp)
             
 
@@ -224,7 +229,7 @@ class Matrix(QWidget):
         self.method = method
         self.checkbox_2.setChecked(True)
         self.size_input.setValue(0)
-        self.sfigures_input.setValue(1)
+        self.sfigures_input.setValue(3)
         self.label.setText(f"Selected Method: {method}")
         if((method=="Jacobi" or method=="Gauss Seidel")):
             self.checkbox_2.setVisible(True)
@@ -299,8 +304,9 @@ class Matrix(QWidget):
         
 
         if len(self.matrix_inputs) >= 1:
-            callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value())
+            solution=callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value())
             self.stacked_widget.setCurrentIndex(3)
+            self.stacked_widget.currentWidget().setSolution(solution)
         
         
         
