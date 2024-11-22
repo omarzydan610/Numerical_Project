@@ -1,3 +1,4 @@
+
 import time
 class Seidel:
     
@@ -34,26 +35,29 @@ class Seidel:
         self.res=self.new
 
     def solve_with_tolerance(self, tolerance):
-        startTime=time.time()
-        tolerance /= 100
-        valid = False
-        iteration = 0
-        while not valid:
-            valid = True
-            iteration += 1
-            for i in range(len(self.matrixB)):
-                sum = self.matrixB[i]
-                for j in range(len(self.matrixB)):
-                    if i != j:
-                        sum -= round(float(self.matrixA[i][j]) * float(self.new[j]), self.SignificantFigures)
-                self.new[i] = round(sum / self.matrixA[i][i], self.SignificantFigures)
+     startTime = time.time()
+     old = self.new[:] 
+     tolerance /= 100
+     valid = False
+     iteration = 0
 
-                relative_error = abs(self.new[i] - self.old[i]) / abs(self.new[i])
-                if relative_error > tolerance:
-                    valid = False
-            self.old = self.new[:]
-        endTime=time.time()
-        self.time=endTime - startTime
-        self.res=self.new
-        self.iterations=iteration
-    
+     while not valid:
+        valid = True
+        iteration += 1
+        for i in range(len(self.matrixB)):
+            sum = self.matrixB[i]
+            for j in range(len(self.matrixB)):
+                if i != j:
+                    sum -= round(self.matrixA[i][j] * self.new[j], self.SignificantFigures)
+            self.new[i] = round(sum / self.matrixA[i][i], self.SignificantFigures)
+            relative_error = abs(self.new[i] - old[i]) / abs(self.new[i])
+            if relative_error > tolerance:
+                valid = False
+        old = self.new[:]
+
+     endTime = time.time()
+     self.time = endTime - startTime
+     self.res = self.new[:]
+     self.iteration = iteration
+
+ 
