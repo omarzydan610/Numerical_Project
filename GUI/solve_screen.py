@@ -154,6 +154,16 @@ class Solve(QWidget):
             self.solve_label.setVisible(False)
             self.steps_button.setVisible(False)
             return
+        else:
+            self.error_message.setVisible(False)
+            self.method_label.setVisible(True)
+            self.execution_time_field.setVisible(True)
+            self.execution_time_label.setVisible(False)
+            self.iterations_field.setVisible(True)
+            self.iterations_label.setVisible(True)
+            self.iterations_space.setVisible(True)
+            self.solve_label.setVisible(True)
+            self.steps_button.setVisible(True)
         
         self.execution_time_field.setText(f"{round(solution[2], 9)}")
         font_metrics = QFontMetrics(self.execution_time_field.font())
