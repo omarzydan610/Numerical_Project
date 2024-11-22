@@ -32,7 +32,7 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
     matrix = np.array(a)
     determinant = np.linalg.det(matrix)
     if(determinant==0):
-        return "error"
+        return "error1"
     
     semetric = np.array_equal(matrix, matrix.T)
     
@@ -64,7 +64,7 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
     
     elif(method=="Jacobi"):
         if(diagonalyDominant(a)==False):
-            return "error"
+            return "error2"
         jacobi=Jacobi(matrixA=a,matrixB=b,initial_guess=initialGuess,Figures=significantFigures)
         if NumberOfIterations!=-1:
             jacobi.solve_with_iterations(num_iterations=NumberOfIterations)
@@ -78,7 +78,7 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
 
     elif(method=="Gauss Seidel"):
         if(diagonalyDominant(a)==False):
-            return "error"
+            return "error2"
         seidel = Seidel(matrixA=a,matrixB=b,initial_guess=initialGuess,Figures=significantFigures)
         if NumberOfIterations!=-1:
             seidel.solve_with_iterations(num_iterations=NumberOfIterations)

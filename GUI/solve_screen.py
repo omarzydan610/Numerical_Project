@@ -70,10 +70,24 @@ class Solve(QWidget):
         self.steps_button.clicked.connect(self.show_steps)
         main_layout.addWidget(self.steps_button, alignment=Qt.AlignmentFlag.AlignHCenter)
         
+        
+        
+        self.error_message=QLabel("")
+        self.error_message.setStyleSheet("""
+                max-width: 650px;
+                height: 50px;
+                background-color: #439A97;
+                color: #F3F7EC;
+                border-radius: 5px;
+                padding: 10px;
+                margin: 15px 0;
+                font-size: 30px;
+        """)
+        self.error_message.setVisible(False)
+        main_layout.addWidget(self.error_message,alignment=Qt.AlignmentFlag.AlignCenter)
 
-
+        
         main_layout.addStretch()
-
 
         self.Home_button = QPushButton('Home screen')
         self.Home_button.clicked.connect(self.home)
@@ -114,8 +128,33 @@ class Solve(QWidget):
 
         
     def setSolution(self, solution):
-        if solution == "error":
+        clear_layout(self.solution_layout)
+        if solution == "error1":
+            self.error_message.setText("There Is No Unique Solution")
+            self.error_message.setVisible(True)
+            self.method_label.setVisible(False)
+            self.execution_time_field.setVisible(False)
+            self.execution_time_label.setVisible(False)
+            self.iterations_field.setVisible(False)
+            self.iterations_label.setVisible(False)
+            self.iterations_space.setVisible(False)
+            self.solve_label.setVisible(False)
+            self.steps_button.setVisible(False)
             return
+        
+        elif solution=="error2":
+            self.error_message.setText("The Matrix is Not Diagonally Dominant")
+            self.error_message.setVisible(True)
+            self.method_label.setVisible(False)
+            self.execution_time_field.setVisible(False)
+            self.execution_time_label.setVisible(False)
+            self.iterations_field.setVisible(False)
+            self.iterations_label.setVisible(False)
+            self.iterations_space.setVisible(False)
+            self.solve_label.setVisible(False)
+            self.steps_button.setVisible(False)
+            return
+        
         self.execution_time_field.setText(f"{round(solution[2], 9)}")
         font_metrics = QFontMetrics(self.execution_time_field.font())
         text_width = font_metrics.horizontalAdvance(f"{round(solution[2], 9)}") + 30 
@@ -125,7 +164,6 @@ class Solve(QWidget):
         if(len(solution)>3):
             self.iterations_field.setText(f"{solution[3]}")
         
-        clear_layout(self.solution_layout)
         sol = solution[1]
         for i in range(len(sol)):
             temp = QVBoxLayout()
