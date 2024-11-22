@@ -128,6 +128,8 @@ class Solve(QWidget):
         self.execution_time_field.setFixedWidth(text_width)
         
         self.method_label.setText(f"Selected method : {solution[0]}")
+        if(len(solution)>3):
+            self.iterations_field.setText(f"{solution[3]}")
         
         clear_layout(self.solution_layout)
         sol = solution[1]

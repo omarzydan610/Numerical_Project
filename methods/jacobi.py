@@ -1,4 +1,4 @@
-
+import time
 class Jacobi:
 
     def __init__(self, matrixA, matrixB, initial_guess,Figures):
@@ -8,20 +8,37 @@ class Jacobi:
         self.old = initial_guess
         self.new = [0] * len(initial_guess)
         self.SignificantFigures=Figures
+        
+        self.res = []
+        self.time = 0.0
+        self.iterations=0
+        
+    def getSolution (self):
+        return self.res
+    
+    def getExcutionTime (self):
+        return self.time
+    
+    def getIterations(self):
+        return self.iterations
 
     def solve_with_iterations(self, num_iterations):
+        start_time = time.time()
         for t in range(num_iterations):
             for i in range(len(self.matrixB)):
                 self.new[i] = self.matrixB[i]
                 for j in range(len(self.matrixB)):
                     if i != j:
-                        self.new[i] -= round(self.matrixA[i][j] * self.old[j],self.SignificantFigures)
+                        self.new[i] -= round(float(self.matrixA[i][j] )* float(self.old[j]),self.SignificantFigures)
                 self.new[i] /= round(self.matrixA[i][i],self.SignificantFigures)
             self.old = self.new[:]
             self.new= [round(num, self.SignificantFigures) for num in self.new]
-        return self.new
+        end_time = time.time()
+        self.time = end_time - start_time  
+        self.res=self.new
 
     def solve_with_tolerance(self, tolerance):
+        start_time = time.time()
         tolerance /= 100 
         valid = False
         iteration = 0
@@ -32,57 +49,19 @@ class Jacobi:
                 self.new[i] = self.matrixB[i]
                 for j in range(len(self.matrixB)):
                     if i != j:
-                        self.new[i] -= round(self.matrixA[i][j] * self.old[j],self.SignificantFigures)
+                        self.new[i] -= round(float(self.matrixA[i][j]) * float(self.old[j]),self.SignificantFigures)
                 self.new[i] /= round(self.matrixA[i][i],self.SignificantFigures)
                 
-                relative_error = abs(self.new[i] - self.old[i]) / abs(self.new[i])
+                relative_error = abs(float(self.new[i]) - float(self.old[i])) / abs(self.new[i])
                 if relative_error > tolerance:
                     valid = False
             
             self.old = self.new[:]
             self.new= [round(num, self.SignificantFigures) for num in self.new]
-        return self.new, iteration
+        end_time = time.time()
+        self.time = end_time - start_time  
+        self.res=self.new
+        self.iterations=iteration
     
 
 
-
-########################## TEST input ########################################################
-
-variables = int(input("number of unknowns: "))
-matrixA = []
-matrixB = []
-SignificantFigures=5
-
-for i in range(variables):
-    row = []
-    for j in range(variables):
-        value = int(input(f"A[{i}][{j}]: "))
-        row.append(value)
-    matrixA.append(row)
-
-print("matrix B:")
-for i in range(variables):
-    value = int(input(f"B[{i}]: "))
-    matrixB.append(value)
-
-initial_guess = []
-print("initial guess:")
-for i in range(variables):
-    value = float(input(f"old[{i}]: "))
-    initial_guess.append(value)
-
-
-jacobi = Jacobi(matrixA, matrixB, initial_guess,SignificantFigures)
-
-stop_condition = input("stopping condition (1 for number of iterations, 2 for absoluterelative error): ")
-
-if stop_condition == '1':
-    num_iterations = int(input("number of iterations: "))
-    solution = jacobi.solve_with_iterations(num_iterations)
-    print(solution)
-
-elif stop_condition == '2':
-    error_tolerance = float(input("error tolerance in %: "))
-    solution, num_iterations = jacobi.solve_with_tolerance(error_tolerance)
-    print(solution)
-    

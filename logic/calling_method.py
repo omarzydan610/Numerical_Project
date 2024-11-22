@@ -1,6 +1,8 @@
 from methods.method import *
 from methods.gauss import Gauss
 from methods.jordan import GaussJordan
+from methods.jacobi import Jacobi
+from methods.seidel import Seidel
 import numpy as np
 
 def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigures=3, NumberOfIterations=-1, AbseluteRelativeError=-1):
@@ -14,7 +16,12 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
                     value = 0.0 
                 row_values.append(value)
         matrix_values.append(row_values)
-            
+        
+    b=[]
+    
+    for i in range (numberEquations):
+        b.append(matrix_values[i][numberEquations])
+        
     a=[]
     for i in range (numberEquations):
         row=[]
@@ -26,12 +33,10 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
     determinant = np.linalg.det(matrix)
     if(determinant==0):
         return "error"
+    
+    semetric = np.array_equal(matrix, matrix.T)
+    
 
-
-    if(AbseluteRelativeError==-1):
-        flag=1
-    else:
-        flag=2
 
 
     if(method=="Gauss"):
@@ -44,21 +49,44 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
         gaussJordan=GaussJordan()
         gaussJordan.solve(system=matrix_values,n=numberEquations,signifcantFigure=significantFigures)
         solution=["Gauss Jordan",gaussJordan.getSolution(),gaussJordan.getExcutionTime()]
-        print (solution)
         return solution
     
     # elif(method=="Doolittle"):
     #     Doolittle(matrix_values,numberEquations,significantFigures)
     #     pass
+    
     # elif(method=="Crout"):
     #     Crout(matrix_values,numberEquations,significantFigures)
     #     pass
     # elif(method=="Cholesky"):
     #     Cholesky(matrix_values,numberEquations,significantFigures)
     #     pass
-    # elif(method=="Jacobi"):
-    #     Doolittle(matrix_values,numberEquations,significantFigures)
-    #     pass
-    # elif(method=="Gauss Seidel"):
-    #     GaussSeidel(matrix_values,numberEquations,significantFigures,initialGuess,NumberOfIterations,AbseluteRelativeError,flag)
-    #     pass
+    
+    elif(method=="Jacobi"):
+        print(b)
+        jacobi=Jacobi(matrixA=a,matrixB=b,initial_guess=initialGuess,Figures=significantFigures)
+        if NumberOfIterations!=-1:
+            jacobi.solve_with_iterations(num_iterations=NumberOfIterations)
+            solution=["Jacobi",jacobi.getSolution(),jacobi.getExcutionTime(),NumberOfIterations]
+        else:
+            jacobi.solve_with_tolerance(tolerance=AbseluteRelativeError)
+            solution=["Jacobi",jacobi.getSolution(),jacobi.getExcutionTime(),jacobi.getIterations()]
+            
+        return solution
+    
+
+    elif(method=="Gauss Seidel"):
+        
+        seidel = Seidel(matrixA=a,matrixB=b,initial_guess=initialGuess,Figures=significantFigures)
+        if NumberOfIterations!=-1:
+            seidel.solve_with_iterations(num_iterations=NumberOfIterations)
+            solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),NumberOfIterations]
+        else:
+            seidel.solve_with_tolerance(tolerance=AbseluteRelativeError)
+            solution=["Gauss Seidel",seidel.getSolution,seidel.getExcutionTime(),seidel.getIterations()]
+
+        return solution
+        
+
+    else:
+        return "error"

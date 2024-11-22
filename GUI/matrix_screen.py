@@ -9,7 +9,7 @@ class Matrix(QWidget):
         super().__init__()
         self.method = ""
         self.stacked_widget = stacked_widget
-        self.setStyleSheet("padding: 10px;margin: 0px 0px;font-size: 40px;")
+        self.setStyleSheet("padding: 10px;margin: 0px 0px;font-size: 40px;color:black;")
         # Main layout for the entire widget
         self.main_layout = QVBoxLayout()
 
@@ -35,6 +35,7 @@ class Matrix(QWidget):
                 font-weight: bold;
                 color: black;
                 margin-left: 20px;
+                color:black;
             }
         """)
         self.top_layout.addWidget(self.label)
@@ -51,6 +52,7 @@ class Matrix(QWidget):
             QLabel {
                 font-size: 16px;
                 margin-bottom: 5px;
+                color:black;
             }
         """)
         self.input_layout.addWidget(self.size_label)
@@ -64,6 +66,7 @@ class Matrix(QWidget):
             QSpinBox {
                 font-size: 16px;
                 background-color:white;
+                color:black;
             }
         """)
         self.input_layout.addWidget(self.size_input)
@@ -74,6 +77,7 @@ class Matrix(QWidget):
             QLabel {
                 font-size: 16px;
                 margin-bottom: 5px;
+                color:black;
             }
         """)
         self.input_layout.addWidget(self.sfigures_label)
@@ -86,6 +90,7 @@ class Matrix(QWidget):
             QSpinBox {
                 font-size: 16px;
                 background-color:white;
+                color:black;
             }
         """)
         self.input_layout.addWidget(self.sfigures_input)
@@ -123,7 +128,7 @@ class Matrix(QWidget):
         # Second text field with checkbox
         # Second text field with checkbox
         self.checkbox_2 = QCheckBox("Number of iterations", self)
-        self.checkbox_2.setStyleSheet("font-size:14px")
+        self.checkbox_2.setStyleSheet("font-size:14px;color:black;")
         self.checkbox_2.stateChanged.connect(self.toggle_field_2)
         self.text_field_2 = QLineEdit(self)
         self.text_field_2.setStyleSheet("height:15px;font-size:14px;padding:7px 2px;background-color:white;")
@@ -214,6 +219,7 @@ class Matrix(QWidget):
                     border-radius: 5px;
                     max-width:60px;
                     background-color:white;
+                    color:black;
                 }
             """)
             validator = QDoubleValidator(self)
@@ -267,6 +273,7 @@ class Matrix(QWidget):
                         margin: 0;
                         border-radius: 5px;
                         background-color:white;
+                        color:black;
                     }
                 """)
                 validator = QDoubleValidator(self)
@@ -283,8 +290,7 @@ class Matrix(QWidget):
                 else:
                     temp2 = QLabel(f"X{j + 1} + ")
 
-                temp2.setStyleSheet("margin: 0; padding: 0")
-                temp2.setStyleSheet("font-size: 12px; font-weight: bold")
+                temp2.setStyleSheet("font-size: 12px; font-weight: bold;margin: 0; padding: 0; color:black;")
                 temp.addWidget(temp2)
                 temp.setSpacing(0)
                 self.grid_layout.addLayout(temp, i, j)
@@ -304,7 +310,13 @@ class Matrix(QWidget):
         
 
         if len(self.matrix_inputs) >= 1:
-            solution=callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value())
+            if(self.method=="Jacobi" or self.method=="Gauss Seidel"):
+                if(self.text_field_2.text()==""):
+                    solution=callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value(),initialGuess=self.initial_Guess,AbseluteRelativeError=float(self.text_field_3.text()))
+                else:
+                    solution=callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value(),initialGuess=self.initial_Guess,NumberOfIterations=int(self.text_field_2.text()))
+            else:
+                solution=callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value())
             self.stacked_widget.setCurrentIndex(3)
             self.stacked_widget.currentWidget().setSolution(solution)
         
@@ -315,7 +327,7 @@ class Matrix(QWidget):
         error_dialog.setIcon(QMessageBox.Icon.Warning)
         error_dialog.setText(message)
         error_dialog.setWindowTitle("Input Error")
-        error_dialog.setStyleSheet("font-size:16px;background-color:white")
+        error_dialog.setStyleSheet("font-size:16px;background-color:white;color:black;")
         error_dialog.exec()
     
     def toggle_field_2(self):
