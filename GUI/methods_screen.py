@@ -10,8 +10,8 @@ class Methods(QWidget):
         layout = QVBoxLayout()
 
         label = QLabel("Choose Method")
-        label.setStyleSheet("font-size:50px; font-weight:bold; color:#439A97; padding-left:100px")
-        layout.addWidget(label)
+        label.setStyleSheet("font-size:50px; font-weight:bold; color:#439A97;")
+        layout.addWidget(label,alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Create and connect buttons dynamically in a loop
         button_texts = ["Gauss", "Gauss Jordan", "LU Decomposition", "Jacobi", "Gauss Seidel"]

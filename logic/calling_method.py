@@ -63,7 +63,8 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
     #     pass
     
     elif(method=="Jacobi"):
-        print(b)
+        if(diagonalyDominant(a)==False):
+            return "error"
         jacobi=Jacobi(matrixA=a,matrixB=b,initial_guess=initialGuess,Figures=significantFigures)
         if NumberOfIterations!=-1:
             jacobi.solve_with_iterations(num_iterations=NumberOfIterations)
@@ -76,7 +77,8 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
     
 
     elif(method=="Gauss Seidel"):
-        
+        if(diagonalyDominant(a)==False):
+            return "error"
         seidel = Seidel(matrixA=a,matrixB=b,initial_guess=initialGuess,Figures=significantFigures)
         if NumberOfIterations!=-1:
             seidel.solve_with_iterations(num_iterations=NumberOfIterations)
@@ -87,6 +89,20 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
 
         return solution
         
-
+    
+    
+def diagonalyDominant(matrix):
+    greater=0
+    for i in range(len(matrix)):
+        sum=0
+        for j in range (len(matrix[i])):
+            sum+=abs(matrix[i][j])
+        sum-=abs(matrix[i][i])
+        if(abs(matrix[i][i])<sum):
+            return False
+        elif (abs(matrix[i][i])>sum):
+            greater+=1
+    if(greater>0):
+        return True
     else:
-        return "error"
+        return False

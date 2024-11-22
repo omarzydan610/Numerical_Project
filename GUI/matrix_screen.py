@@ -14,7 +14,8 @@ class Matrix(QWidget):
         self.main_layout = QVBoxLayout()
 
         # Top layout for the back button
-        self.top_layout = QHBoxLayout()
+        self.methodName_layout = QHBoxLayout()
+        self.backButton_latout=QHBoxLayout()
 
         pixmap = QPixmap("images/backIcon.png").scaled(24, 24)  # Resize to 24x24 pixels
         icon = QIcon(pixmap)
@@ -25,23 +26,23 @@ class Matrix(QWidget):
         back_button.setFixedSize(30, 30)
         back_button.setStyleSheet("border:none")
         back_button.clicked.connect(self.go_back_to_methods)
-        self.top_layout.addWidget(back_button, alignment=Qt.AlignmentFlag.AlignLeft)
-
+        self.backButton_latout.addWidget(back_button, alignment=Qt.AlignmentFlag.AlignLeft)
+        self.main_layout.addLayout(self.backButton_latout)
         # Label for the selected method
         self.label = QLabel(self)
         self.label.setStyleSheet("""
             QLabel {
-                font-size: 18px;
+                font-size: 24px;
                 font-weight: bold;
                 color: black;
                 margin-left: 20px;
                 color:black;
             }
         """)
-        self.top_layout.addWidget(self.label)
+        self.methodName_layout.addWidget(self.label,alignment=Qt.AlignmentFlag.AlignCenter)
 
         # Add top layout to main layout
-        self.main_layout.addLayout(self.top_layout)
+        self.main_layout.addLayout(self.methodName_layout)
         self.input_layout = QHBoxLayout()
         
 
@@ -131,7 +132,7 @@ class Matrix(QWidget):
         self.checkbox_2.setStyleSheet("font-size:14px;color:black;")
         self.checkbox_2.stateChanged.connect(self.toggle_field_2)
         self.text_field_2 = QLineEdit(self)
-        self.text_field_2.setStyleSheet("height:15px;font-size:14px;padding:7px 2px;background-color:white;")
+        self.text_field_2.setStyleSheet("height:15px;font-size:14px;padding:7px 2px;background-color:white;color:black;")
         # Integer validator for text_field_2
         integer_validator = QIntValidator(self)
         integer_validator.setBottom(0)  # Optionally set a lower limit if necessary
@@ -141,10 +142,10 @@ class Matrix(QWidget):
 
         # Third text field with checkbox
         self.checkbox_3 = QCheckBox("Abselute Relative Error", self)
-        self.checkbox_3.setStyleSheet("font-size:14px")
+        self.checkbox_3.setStyleSheet("font-size:14px;color:black;")
         self.checkbox_3.stateChanged.connect(self.toggle_field_3)
         self.text_field_3 = QLineEdit(self)
-        self.text_field_3.setStyleSheet("height:15px;font-size:14px;padding:7px 2px;background-color:white;")
+        self.text_field_3.setStyleSheet("height:15px;font-size:14px;padding:7px 2px;background-color:white;color:black;")
         # Double validator for text_field_3
         double_validator = QDoubleValidator(self)
         double_validator.setBottom(0)  # No lower limit
@@ -173,7 +174,7 @@ class Matrix(QWidget):
                 font-weight: bold;
             }
             QPushButton:hover {
-                background-color: #45a049;
+                background-color: #62B6B7;
             }
         """)
         self.solve_button.clicked.connect(self.solve_matrix)
@@ -181,7 +182,12 @@ class Matrix(QWidget):
 
         # Center the solve button
         self.solve_layout = QHBoxLayout()
-        self.solve_layout.addWidget(self.solve_button, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.solve_layout.addStretch()
+        self.solve_layout.addWidget(self.solve_button)
+        self.scalling_checkBox=QCheckBox("Scalling",self)
+        self.scalling_checkBox.setStyleSheet("font-size:18px;padding:7px 2px;color:black;font-weight:bold")
+        self.solve_layout.addWidget(self.scalling_checkBox)
+        self.solve_layout.addStretch()
         self.main_layout.addLayout(self.solve_layout)
 
         # Set the main layout for the widget
@@ -237,6 +243,11 @@ class Matrix(QWidget):
         self.size_input.setValue(0)
         self.sfigures_input.setValue(3)
         self.label.setText(f"Selected Method: {method}")
+        if(method=="Gauss" or method=="Gauss Jordan"):
+            self.scalling_checkBox.setVisible(True)
+        else:
+            self.scalling_checkBox.setVisible(False)
+            
         if((method=="Jacobi" or method=="Gauss Seidel")):
             self.checkbox_2.setVisible(True)
             self.checkbox_3.setVisible(True)

@@ -1,18 +1,13 @@
-
 from PyQt6.QtWidgets import *
 from PyQt6.QtWidgets import *
-
 from GUI.methods_screen import Methods
 from GUI.LU_screen import LU
 from GUI.matrix_screen import Matrix
 from GUI.solve_screen import Solve 
 
-
-
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        # self.setStyleSheet("background-color:white")
         self.setWindowTitle("numerical methods")
         self.setGeometry(100, 100, 800, 600)
 
