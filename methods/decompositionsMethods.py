@@ -1,4 +1,53 @@
 import numpy as np
+import time
+
+
+class Doolittle:
+    def __init__(self, matrix, b):
+        self.A = matrix
+        self.n = matrix.shape[0]
+        self.b = b
+        self.L = np.identity(self.n)  
+        self.U = np.zeros_like(matrix)  
+        self.y = np.zeros_like(self.b)  
+        self.x = np.zeros_like(self.b)  
+        self.execution_time = 0
+
+    def decompose(self):
+        for k in range(self.n):
+            for j in range(k, self.n):
+                sum_var = 0
+                for m in range(k): 
+                    sum_var += self.L[k, m] * self.U[m, j]
+                self.U[k, j] = self.A[k, j] - sum_var
+
+            for i in range(k + 1, self.n):
+                sum_var = 0
+                for m in range(k):  # Replace sum with loop
+                    sum_var += self.L[i, m] * self.U[m, k]
+                self.L[i, k] = (self.A[i, k] - sum_var) / self.U[k, k]
+
+    def solve(self):
+        start_time = time.time()
+        self.decompose()
+
+        for i in range(self.n):
+            sum_var = 0
+            for j in range(i): 
+                sum_var += self.L[i, j] * self.y[j]
+            self.y[i] = self.b[i] - sum_var
+
+        
+        for i in range(self.n - 1, -1, -1):
+            sum_var = 0
+            for j in range(i + 1, self.n):  # Replace sum with loop
+                sum_var += self.U[i, j] * self.x[j]
+            self.x[i] = (self.y[i] - sum_var) / self.U[i, i]
+
+        self.execution_time = time.time() - start_time
+        return self.x
+
+                
 
 
 class Cholesky:
@@ -10,6 +59,7 @@ class Cholesky:
         self.x = np.zeros_like(b)
         self.flag = True
         self.y = np.zeros_like(self.b)
+        self.execution_time = 0
 
     def checkSymmetric(self):
         for i in range(self.n):
@@ -37,6 +87,7 @@ class Cholesky:
         
 
     def solve(self):
+        start_time = time.time()
         self.decompose()
         for i in range(self.n):
             sumVar = 0
@@ -49,6 +100,7 @@ class Cholesky:
             for j in range(i + 1, self.n):
                 sumVar += self.L[j, i] * self.x[j]
             self.x[i] = (self.y[i] * 1.0 - sumVar) * 1.0 / self.L[i, i]
+        self.execution_time = time.time() - start_time
         return self.x
 
 class Crout:
@@ -60,6 +112,7 @@ class Crout:
         self.x = np.zeros_like(b)
         self.U = np.zeros_like(matrix)
         self.y = np.zeros_like(self.b)
+        self.execution_time = 0
 
     def decompose(self):
         for i in range(self.n):
@@ -88,6 +141,7 @@ class Crout:
         
 
     def solve(self):
+        start_time = time.time()
         self.decompose()
         for i in range(self.n):
             sumVar = 0
@@ -100,6 +154,7 @@ class Crout:
             for j in range(i + 1, self.n):
                 sumVar += self.U[i, j] * self.x[j]
             self.x[i] = (self.y[i]  - sumVar) 
+        self.execution_time = time.time() - start_time
         return self.x
     
     
@@ -117,7 +172,7 @@ A = np.array([[3, 2, -1],
 b = np.array([1, -2, 0], dtype=float)
 
 # Initialize and solve using Crout's decomposition
-solver = Crout(A, b)
+solver = Doolittle(A, b)
 
 # Solve for x in A * x = b
 x = solver.solve()
@@ -127,3 +182,4 @@ print("Solution vector x:", x)
 Ax = A @ x
 print("Computed A * x:", Ax)
 print("Original vector b:", b)
+print("time: ", solver.execution_time)
