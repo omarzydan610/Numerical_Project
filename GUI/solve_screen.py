@@ -9,22 +9,16 @@ class Solve(QWidget):
     def __init__(self, stacked_widget):
         super().__init__()
         self.stacked_widget = stacked_widget
-        # Set up the window
-        self.setGeometry(100, 100, 800, 600)
 
-        # Main layout
         main_layout = QVBoxLayout()
         
-        # Container layout for fields
         container_layout = QVBoxLayout()
 
-        # Method label, centered horizontally
         self.method_label = QLabel("Method:")
         self.method_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         container_layout.addWidget(self.method_label)
         container_layout.addWidget(QLabel(" "))
 
-        # Execution time label and field in an HBox, centered
         execution_time_layout = QHBoxLayout()
         self.execution_time_label = QLabel('Execution Time:')
         self.execution_time_field = QLineEdit()
@@ -35,13 +29,12 @@ class Solve(QWidget):
         execution_time_layout.addWidget(self.execution_time_field)
         
         font_metrics = QFontMetrics(self.execution_time_field.font())
-        text_width = font_metrics.horizontalAdvance(self.execution_time_field.text()) + 30  # Adding padding
+        text_width = font_metrics.horizontalAdvance(self.execution_time_field.text()) + 30  
         self.execution_time_field.setFixedWidth(text_width)
         
         container_layout.addLayout(execution_time_layout)
         container_layout.addWidget(QLabel(" "))
 
-        # Iterations label and field in an HBox, centered
         iterations_layout = QHBoxLayout()
         self.iterations_label = QLabel('Number of Iterations:')
         self.iterations_field = QLineEdit()
@@ -51,13 +44,12 @@ class Solve(QWidget):
         iterations_layout.addWidget(self.iterations_label)
         iterations_layout.addWidget(self.iterations_field)
         font_metrics = QFontMetrics(self.iterations_field.font())
-        text_width = font_metrics.horizontalAdvance(self.iterations_field.text()) + 30  # Adding padding
+        text_width = font_metrics.horizontalAdvance(self.iterations_field.text()) + 30
         self.iterations_field.setFixedWidth(text_width)
         container_layout.addLayout(iterations_layout)
         self.iterations_space=QLabel("")
         container_layout.addWidget(self.iterations_space)
 
-        # Solution label (optional)
         self.solve_label = QLabel('Solution is:')
         self.solve_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         container_layout.addWidget(self.solve_label)
@@ -67,27 +59,29 @@ class Solve(QWidget):
         self.solution_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         container_layout.addLayout(self.solution_layout)
         
-        
 
-        # Wrap the container layout in a widget to enable horizontal centering
         container_widget = QWidget()
         container_widget.setLayout(container_layout)
 
-        # Add the container widget to the main layout, centered horizontally
-        main_layout.addWidget(container_widget, alignment=Qt.AlignmentFlag.AlignHCenter)
 
-        # Spacer item to push content towards the top
+        main_layout.addWidget(container_widget, alignment=Qt.AlignmentFlag.AlignHCenter)
+        
+        self.steps_button=QPushButton("Show Steps")
+        self.steps_button.clicked.connect(self.show_steps)
+        main_layout.addWidget(self.steps_button, alignment=Qt.AlignmentFlag.AlignHCenter)
+        
+
+
         main_layout.addStretch()
 
-        # Home button, center-aligned
+
         self.Home_button = QPushButton('Home screen')
         self.Home_button.clicked.connect(self.home)
         main_layout.addWidget(self.Home_button, alignment=Qt.AlignmentFlag.AlignHCenter)
 
-        # Set main layout as the layout for the widget
+
         self.setLayout(main_layout)
 
-        # Apply the stylesheet
         self.setStyleSheet("""
             QWidget{
                 font-size: 20px;
@@ -124,7 +118,7 @@ class Solve(QWidget):
             return
         self.execution_time_field.setText(f"{round(solution[2], 9)}")
         font_metrics = QFontMetrics(self.execution_time_field.font())
-        text_width = font_metrics.horizontalAdvance(f"{round(solution[2], 9)}") + 30  # Adding padding
+        text_width = font_metrics.horizontalAdvance(f"{round(solution[2], 9)}") + 30 
         self.execution_time_field.setFixedWidth(text_width)
         
         self.method_label.setText(f"Selected method : {solution[0]}")
@@ -152,12 +146,15 @@ class Solve(QWidget):
                 }
             """)
 
-            # Calculate the width of the content and set the width of the QLineEdit
             res.setFixedWidth(150)
 
             temp.addWidget(res)
             self.solution_layout.addLayout(temp)
-            if (solution[0] == "Gauss" or solution[0] == "Gauss Jordan" ):
+            if (solution[0] == "Jacobi" or solution[0] == "Gauss Seidel" ):
+                self.iterations_label.setVisible(True)
+                self.iterations_field.setVisible(True)
+                self.iterations_space.setVisible(True)
+            else:
                 self.iterations_label.setVisible(False)
                 self.iterations_field.setVisible(False)
                 self.iterations_space.setVisible(False)
@@ -165,3 +162,6 @@ class Solve(QWidget):
 
     def home(self):
         self.stacked_widget.setCurrentIndex(0)
+        
+    def show_steps(self):
+        pass
