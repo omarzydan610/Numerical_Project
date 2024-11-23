@@ -160,7 +160,7 @@ class Solve(QWidget):
             self.error_message.setVisible(False)
             self.method_label.setVisible(True)
             self.execution_time_field.setVisible(True)
-            self.execution_time_label.setVisible(False)
+            self.execution_time_label.setVisible(True)
             self.iterations_field.setVisible(True)
             self.iterations_label.setVisible(True)
             self.iterations_space.setVisible(True)
