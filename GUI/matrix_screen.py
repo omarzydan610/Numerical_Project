@@ -15,7 +15,7 @@ class Matrix(QWidget):
 
         # Top layout for the back button
         self.methodName_layout = QHBoxLayout()
-        self.backButton_latout=QHBoxLayout()
+        self.backButton_latout = QHBoxLayout()
 
         pixmap = QPixmap("images/backIcon.png").scaled(24, 24)  # Resize to 24x24 pixels
         icon = QIcon(pixmap)

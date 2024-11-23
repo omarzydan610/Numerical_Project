@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QFontMetrics
-
+from GUI.steps import StepsDisplay
 from GUI.matrix_screen import clear_layout
 
 
@@ -20,10 +20,12 @@ class Solve(QWidget):
         container_layout.addWidget(QLabel(" "))
 
         execution_time_layout = QHBoxLayout()
-        self.execution_time_label = QLabel('Execution Time:')
+        self.execution_time_label = QLabel("Execution Time:")
+        self.execution_time_label.setStyleSheet("color:black;")
         self.execution_time_field = QLineEdit()
         self.execution_time_field.setReadOnly(True)
         self.execution_time_field.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.execution_time_field.setStyleSheet("color:black;")
         
         execution_time_layout.addWidget(self.execution_time_label)
         execution_time_layout.addWidget(self.execution_time_field)
@@ -173,6 +175,7 @@ class Solve(QWidget):
         self.method_label.setText(f"Selected method : {solution[0]}")
         if(len(solution)>3):
             self.iterations_field.setText(f"{solution[3]}")
+            self.iterations_field.setStyleSheet("color:black;")
         
         sol = solution[1]
         for i in range(len(sol)):
@@ -180,7 +183,7 @@ class Solve(QWidget):
             temp.setAlignment(Qt.AlignmentFlag.AlignCenter)
             temp2 = QLabel(f"X{i+1}")
             temp2.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            temp2.setStyleSheet("font-size:14px")
+            temp2.setStyleSheet("font-size:14px;")
             temp.addWidget(temp2)
             res = QLineEdit(f"{sol[i]}")
             res.setReadOnly(True)
@@ -191,6 +194,7 @@ class Solve(QWidget):
                     border-radius: 4px;
                     padding: 5px;
                     min-width: fit-content;
+                    color:black;
                 }
             """)
 
@@ -212,4 +216,5 @@ class Solve(QWidget):
         self.stacked_widget.setCurrentIndex(0)
         
     def show_steps(self):
-        pass
+        step_dialog = StepsDisplay()
+        step_dialog.exec()
