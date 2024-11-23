@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon,QPixmap
+from pathlib import Path
 
 
 class LU(QWidget):
@@ -10,7 +11,7 @@ class LU(QWidget):
         self.main_layout = QVBoxLayout()
         
         self.backButton_latout=QHBoxLayout()
-        pixmap = QPixmap("images/backIcon.png").scaled(24, 24)  # Resize to 24x24 pixels
+        pixmap = QPixmap(str(Path("images/back_icon.png").resolve())).scaled(24, 24)  # Resize to 24x24 pixels
         icon = QIcon(pixmap)
 
         back_button = QPushButton(self)

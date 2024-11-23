@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt
+from pathlib import Path
 from PyQt6.QtGui import QDoubleValidator,QIcon,QPixmap
 from PyQt6.QtGui import QIntValidator
 from logic.calling_method import callingMethod
@@ -17,7 +18,7 @@ class Matrix(QWidget):
         self.methodName_layout = QHBoxLayout()
         self.backButton_latout = QHBoxLayout()
 
-        pixmap = QPixmap("images/backIcon.png").scaled(24, 24)  # Resize to 24x24 pixels
+        pixmap = QPixmap(str(Path("images/back_icon.png").resolve())).scaled(24, 24)  # Resize to 24x24 pixels
         icon = QIcon(pixmap)
 
         back_button = QPushButton(self)
@@ -185,7 +186,7 @@ class Matrix(QWidget):
         self.solve_layout.addStretch()
         self.solve_layout.addWidget(self.solve_button)
         self.scalling_checkBox=QCheckBox("Scalling",self)
-        self.scalling_checkBox.setStyleSheet("font-size:18px;padding:7px 2px;color:black;font-weight:bold")
+        self.scalling_checkBox.setStyleSheet("font-size:14px;color:black;")
         self.solve_layout.addWidget(self.scalling_checkBox)
         self.solve_layout.addStretch()
         self.main_layout.addLayout(self.solve_layout)
