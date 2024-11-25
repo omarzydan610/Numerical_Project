@@ -9,7 +9,7 @@ class Solve(QWidget):
     def __init__(self, stacked_widget):
         super().__init__()
         self.stacked_widget = stacked_widget
-
+        self.steps = ""
         main_layout = QVBoxLayout()
         
         container_layout = QVBoxLayout()
@@ -128,8 +128,9 @@ class Solve(QWidget):
         """)
 
 
-        
     def setSolution(self, solution):
+        if(len(solution)==4 and solution[0]=="Doolittle"):
+            self.steps=solution[3]
         clear_layout(self.solution_layout)
         if solution == "error1":
             self.error_message.setText("There Is No Unique Solution")
@@ -216,5 +217,5 @@ class Solve(QWidget):
         self.stacked_widget.setCurrentIndex(0)
         
     def show_steps(self):
-        step_dialog = StepsDisplay()
+        step_dialog = StepsDisplay(self.steps)
         step_dialog.exec()

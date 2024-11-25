@@ -3,6 +3,9 @@ from methods.gauss import Gauss
 from methods.jordan import GaussJordan
 from methods.jacobi import Jacobi
 from methods.seidel import Seidel
+from methods.decompositionsMethods.doolittle import Doolittle
+from methods.decompositionsMethods.cholesky import Cholesky
+from methods.decompositionsMethods.crout import Crout
 import numpy as np
 
 def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigures=3, NumberOfIterations=-1, AbseluteRelativeError=-1):
@@ -51,17 +54,24 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
         solution=["Gauss Jordan",gaussJordan.getSolution(),gaussJordan.getExcutionTime()]
         return solution
     
-    # elif(method=="Doolittle"):
-    #     Doolittle(matrix_values,numberEquations,significantFigures)
-    #     pass
+    elif(method=="Doolittle"):
+        dolittle = Doolittle(matrixA=a, matrixB=b, figures=significantFigures)
+        dolittle.solve()
+        solution=["Doolittle",dolittle.getSolution(),dolittle.getExcutionTime(), dolittle.getSteps()]
+        return solution
     
-    # elif(method=="Crout"):
-    #     Crout(matrix_values,numberEquations,significantFigures)
-    #     pass
-    # elif(method=="Cholesky"):
-    #     Cholesky(matrix_values,numberEquations,significantFigures)
-    #     pass
-    
+    elif(method=="Crout"):
+        crout = Crout(matrixA=a, matrixB=b, figures=significantFigures)
+        crout.solve()
+        solution=["Crout", crout.getSolution(), crout.getExcutionTime()]
+        return solution 
+
+    elif(method=="Cholesky"):
+        cholesky = Cholesky(matrixA=a, matrixB=b, figures=significantFigures)
+        cholesky.solve()
+        solution=["Cholesky", cholesky.getSolution(), cholesky.getExcutionTime()]
+        return solution 
+
     elif(method=="Jacobi"):
         if(diagonalyDominant(a)==False):
             return "error2"
