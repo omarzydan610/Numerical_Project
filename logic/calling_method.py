@@ -1,4 +1,3 @@
-from methods.method import *
 from methods.gauss import Gauss
 from methods.jordan import GaussJordan
 from methods.jacobi import Jacobi
@@ -63,13 +62,13 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
     elif(method=="Crout"):
         crout = Crout(matrixA=a, matrixB=b, figures=significantFigures)
         crout.solve()
-        solution=["Crout", crout.getSolution(), crout.getExcutionTime()]
+        solution=["Crout", crout.getSolution(), crout.getExcutionTime(), crout.getSteps()]
         return solution 
 
     elif(method=="Cholesky"):
         cholesky = Cholesky(matrixA=a, matrixB=b, figures=significantFigures)
         cholesky.solve()
-        solution=["Cholesky", cholesky.getSolution(), cholesky.getExcutionTime()]
+        solution=["Cholesky", cholesky.getSolution(), cholesky.getExcutionTime(), cholesky.getSteps()]
         return solution 
 
     elif(method=="Jacobi"):

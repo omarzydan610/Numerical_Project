@@ -19,6 +19,34 @@ class Crout:
     def getSolution(self):
         return self.x
     
+    def getSteps(self):
+        matrixL = ""
+        matrixU = ""
+        for i in self.L:
+            matrixL += "|  "
+            for j in i:
+                matrixL += f"{round(j, 3)}  "
+            matrixL += "|\n        "
+        for i in self.U:
+            matrixU += "|  "
+            for j in i:
+                matrixU += f"{round(j, 3)}  "
+            matrixU += "|\n        "
+        steps = f"""
+L matrix:
+        {matrixL}
+
+U matrix:
+        {matrixU}
+
+the equation is:
+
+            LUX = b
+            UX = Y
+            LY = b
+        """
+        return steps
+
     def decompose(self):
         for i in range(self.n):
             for j in range(self.n):
