@@ -129,7 +129,7 @@ class Solve(QWidget):
 
 
     def setSolution(self, solution):
-        if(len(solution)==4 and (solution[0]=="Doolittle" or solution[0]=="Crout" or solution[0]=="Cholesky")):
+        if(len(solution)==4 and (solution[0]=="Doolittle" or solution[0]=="Crout" or solution[0]=="Cholesky" or solution[0]=="Gauss")):
             self.steps=solution[3]
         clear_layout(self.solution_layout)
         if solution == "error1":

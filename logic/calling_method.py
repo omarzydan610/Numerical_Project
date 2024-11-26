@@ -44,7 +44,7 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
     if(method=="Gauss"):
         gauss=Gauss()
         gauss.solve(system=matrix_values,n=numberEquations,signifcantFigure=significantFigures)
-        solution=["Gauss",gauss.getSolution(),gauss.getExcutionTime()]
+        solution=["Gauss",gauss.getSolution(),gauss.getExcutionTime(), gauss.grtSteps()]
         return solution
     
     elif(method=="Gauss Jordan"):
