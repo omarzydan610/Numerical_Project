@@ -15,15 +15,29 @@ class Doolittle:
 
     def getSteps(self):
         matrixL = ""
+        matrixU = ""
         for i in self.L:
+            matrixL += "|  "
             for j in i:
-                matrixL += "|  "
                 matrixL += f"{round(j, 3)}  "
-            matrixL += "  |"
-            matrixL += "\n      "
+            matrixL += "|\n        "
+        for i in self.U:
+            matrixU += "|  "
+            for j in i:
+                matrixU += f"{round(j, 3)}  "
+            matrixU += "|\n        "
         steps = f"""
 L matrix:
         {matrixL}
+
+U matrix:
+        {matrixU}
+
+the equation is:
+
+            LUX = b
+            UX = Y
+            LY = b
         """
         return steps
 
