@@ -13,6 +13,7 @@ class Matrix(QWidget):
         self.setStyleSheet("padding: 10px;margin: 0px 0px;font-size: 40px;color:black;")
         # Main layout for the entire widget
         self.main_layout = QVBoxLayout()
+        self.is_scaling_enabled = False
 
         # Top layout for the back button
         self.methodName_layout = QHBoxLayout()
@@ -185,8 +186,10 @@ class Matrix(QWidget):
         self.solve_layout = QHBoxLayout()
         self.solve_layout.addStretch()
         self.solve_layout.addWidget(self.solve_button)
+        
         self.scalling_checkBox=QCheckBox("Scalling",self)
         self.scalling_checkBox.setStyleSheet("font-size:14px;color:black;")
+        self.scalling_checkBox.stateChanged.connect(self.update_scaling_status)  # Connect to the new method
         self.solve_layout.addWidget(self.scalling_checkBox)
         self.solve_layout.addStretch()
         self.main_layout.addLayout(self.solve_layout)
@@ -198,7 +201,10 @@ class Matrix(QWidget):
         self.generate_intial_guess()
         
     
-    
+    def update_scaling_status(self):
+        # Update the instance variable based on the checkbox state
+        self.is_scaling_enabled = self.scalling_checkBox.isChecked()
+        print(self.is_scaling_enabled)
         
     def generate_intial_guess(self):
         
@@ -262,6 +268,8 @@ class Matrix(QWidget):
         
 
     def go_back_to_methods(self):
+        self.is_scaling_enabled=False
+        self.scalling_checkBox.setChecked(False)
         self.stacked_widget.setCurrentIndex(0)
 
     def generate_matrix(self):

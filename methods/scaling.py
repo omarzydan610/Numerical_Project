@@ -23,7 +23,7 @@ def gaussScale(system, n):
             factor = system[i, k] / system[k, k]
             system[i, k:] -= factor * system[k, k:]
 
-   
+
     x = np.zeros(n)                                              # Back Substitution
     for i in range(n - 1, -1, -1):
         x[i] = (system[i, -1] - np.dot(system[i, i + 1:n], x[i + 1:n])) / system[i, i]
@@ -57,9 +57,9 @@ def jordanScale(system, n):
     
     for i in range(n-1, -1, -1):                                        #backward elimination
             for j in range(i-1, -1, -1):
-              factor = system[j][i]/system[i][i]
-              system[j][i] -= system[i][i]*factor
-              system[j][n] -= system[i][n]*factor
+                factor = system[j][i]/system[i][i]
+                system[j][i] -= system[i][i]*factor
+                system[j][n] -= system[i][n]*factor
 
 
     x = np.zeros(n)     
