@@ -3,7 +3,6 @@ import numpy as np
 
 
 class Cholesky:
-    e
     def __init__(self, matrixA, matrixB, figures):
         self.eigenvalues = np.linalg.eigvals(matrixA)
         self.matrix = np.matrix(matrixA)
