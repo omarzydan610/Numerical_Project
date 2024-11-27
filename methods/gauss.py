@@ -7,7 +7,8 @@ class Gauss :
         self.res = np.array([])
         self.time = 0.0
         self.steps=""""""
-        
+
+
     def grtSteps(self):
         return self.steps
     
@@ -35,10 +36,9 @@ class Gauss :
         return self.time
     
 
-    def gaussScale(self, system, n):
+    def gaussScale_solve(self, system, n, signifcantFigure):
 
         system = np.array(system, dtype=float)
-
         A = system[:, :-1]  
         b = system[:, -1]   
         A = np.array(A, dtype=float)  
@@ -53,7 +53,6 @@ class Gauss :
                 system[[k, pivot_row]] = system[[pivot_row, k]]     # Swap rows
                 scale[[k, pivot_row]] = scale[[pivot_row, k]]       # Swap scaling factors
 
-        
             for i in range(k + 1, n):
                 factor = system[i, k] / system[k, k]
                 system[i, k:] -= factor * system[k, k:]
@@ -61,7 +60,7 @@ class Gauss :
         x = np.zeros(n)                                              # Back Substitution
         for i in range(n - 1, -1, -1):
             x[i] = (system[i, -1] - np.dot(system[i, i + 1:n], x[i + 1:n])) / system[i, i]
-        return x
+        self.res = x
 
 
 

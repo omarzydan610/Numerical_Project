@@ -7,7 +7,7 @@ from methods.decompositionsMethods.cholesky import Cholesky
 from methods.decompositionsMethods.crout import Crout
 import numpy as np
 
-def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigures=3, NumberOfIterations=-1, AbseluteRelativeError=-1):
+def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigures=3, NumberOfIterations=-1, AbseluteRelativeError=-1, scalling=False):
     matrix_values = []
     for row in arr:
         row_values = []
@@ -42,16 +42,28 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
 
 
     if(method=="Gauss"):
-        gauss=Gauss()
-        gauss.solve(system=matrix_values,n=numberEquations,signifcantFigure=significantFigures)
-        solution=["Gauss",gauss.getSolution(),gauss.getExcutionTime(), gauss.grtSteps()]
-        return solution
+        if scalling==False:
+            gauss=Gauss()
+            gauss.solve(system=matrix_values,n=numberEquations,signifcantFigure=significantFigures)
+            solution=["Gauss",gauss.getSolution(),gauss.getExcutionTime(), gauss.grtSteps()]
+            return solution
+        elif scalling==True:
+            gauss=Gauss()
+            gauss.gaussScale_solve(system=matrix_values,n=numberEquations,signifcantFigure=significantFigures)
+            solution=["Gauss",gauss.getSolution(),gauss.getExcutionTime(), gauss.grtSteps()]
+            return solution
     
     elif(method=="Gauss Jordan"):
-        gaussJordan=GaussJordan()
-        gaussJordan.solve(system=matrix_values,n=numberEquations,signifcantFigure=significantFigures)
-        solution=["Gauss Jordan",gaussJordan.getSolution(),gaussJordan.getExcutionTime(),gaussJordan.grtSteps()]
-        return solution
+        if scalling==False:
+            gaussJordan=GaussJordan()
+            gaussJordan.solve(system=matrix_values,n=numberEquations,signifcantFigure=significantFigures)
+            solution=["Gauss Jordan",gaussJordan.getSolution(),gaussJordan.getExcutionTime(),gaussJordan.grtSteps()]
+            return solution
+        elif scalling==True:
+            gaussJordan=GaussJordan()
+            gaussJordan.jordanScale_solve(system=matrix_values,n=numberEquations,signifcantFigure=significantFigures)
+            solution=["Gauss Jordan",gaussJordan.getSolution(),gaussJordan.getExcutionTime(),gaussJordan.grtSteps()]
+            return solution
     
     elif(method=="Doolittle"):
         dolittle = Doolittle(matrixA=a, matrixB=b, figures=significantFigures)

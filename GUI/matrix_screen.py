@@ -202,10 +202,8 @@ class Matrix(QWidget):
         
     
     def update_scaling_status(self):
-        # Update the instance variable based on the checkbox state
         self.is_scaling_enabled = self.scalling_checkBox.isChecked()
-        print(self.is_scaling_enabled)
-        
+
     def generate_intial_guess(self):
         
         clear_layout(self.intial_guess_layout)
@@ -336,7 +334,7 @@ class Matrix(QWidget):
                 else:
                     solution=callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value(),initialGuess=self.initial_Guess,NumberOfIterations=int(self.text_field_2.text()))
             else:
-                solution=callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value())
+                solution=callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value(), scalling=self.is_scaling_enabled)
             self.stacked_widget.setCurrentIndex(3)
             self.stacked_widget.currentWidget().setSolution(solution)
         
