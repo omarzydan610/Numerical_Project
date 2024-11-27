@@ -16,7 +16,7 @@ def significantFiguresCalculation(number, significantFigures):
         if counter == significantFigures:
             flag = True
         numberArray.append(theNumber)
-    for i in range(significantFigures):
+    for i in range(min(significantFigures, len(numberArray))):
         truncatedNumber += numberArray[len(numberArray)-i-1] * 10**(len(numberArray)-i-1)
     if flag == False:
         truncatedNumber = int(truncatedNumber) + decPart 
