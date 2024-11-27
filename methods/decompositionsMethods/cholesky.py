@@ -55,7 +55,7 @@ x vector = {self.x}
     def checkPositiveDefinite(self):
         for i in self.eigenvalues:
             if i <= 0:
-                return "The matrix is not positive definite" + str(self.eigenvalues)
+                return False
         return True
     def checkSymmetric(self):
         for i in range(self.n):
