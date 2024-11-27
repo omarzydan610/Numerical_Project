@@ -33,18 +33,23 @@ class Crout:
                 matrixU += f"{round(j, 3)}  "
             matrixU += "|\n        "
         steps = f"""
+the equation is:
+            AX = b
+            A = LU
+            LUX = b
+            LY = b
+            UX = Y
+
 L matrix:
         {matrixL}
 
 U matrix:
         {matrixU}
 
-the equation is:
+Y vector = {self.y}
 
-            LUX = b
-            UX = Y
-            LY = b
-        """
+x vector = {self.x}
+"""
         return steps
 
     def decompose(self):
