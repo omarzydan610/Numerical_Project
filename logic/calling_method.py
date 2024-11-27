@@ -50,7 +50,7 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
     elif(method=="Gauss Jordan"):
         gaussJordan=GaussJordan()
         gaussJordan.solve(system=matrix_values,n=numberEquations,signifcantFigure=significantFigures)
-        solution=["Gauss Jordan",gaussJordan.getSolution(),gaussJordan.getExcutionTime()]
+        solution=["Gauss Jordan",gaussJordan.getSolution(),gaussJordan.getExcutionTime(),gaussJordan.grtSteps()]
         return solution
     
     elif(method=="Doolittle"):
@@ -72,29 +72,31 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
         return solution 
 
     elif(method=="Jacobi"):
+        initial_guess=[float(element) for element in initialGuess]
         if(diagonalyDominant(a)==False):
             return "error2"
-        jacobi=Jacobi(matrixA=a,matrixB=b,initial_guess=initialGuess,Figures=significantFigures)
+        jacobi=Jacobi(matrixA=a,matrixB=b,initial_guess=initial_guess,Figures=significantFigures)
         if NumberOfIterations!=-1:
             jacobi.solve_with_iterations(num_iterations=NumberOfIterations)
-            solution=["Jacobi",jacobi.getSolution(),jacobi.getExcutionTime(),NumberOfIterations]
+            solution=["Jacobi",jacobi.getSolution(),jacobi.getExecutionTime(),NumberOfIterations,jacobi.getSteps()]
         else:
             jacobi.solve_with_tolerance(tolerance=AbseluteRelativeError)
-            solution=["Jacobi",jacobi.getSolution(),jacobi.getExcutionTime(),jacobi.getIterations()]
+            solution=["Jacobi",jacobi.getSolution(),jacobi.getExecutionTime(),jacobi.getIterations(),jacobi.getSteps()]
             
         return solution
     
 
     elif(method=="Gauss Seidel"):
+        initial_guess=[float(element) for element in initialGuess]
         if(diagonalyDominant(a)==False):
             return "error2"
-        seidel = Seidel(matrixA=a,matrixB=b,initial_guess=initialGuess,Figures=significantFigures)
+        seidel = Seidel(matrixA=a,matrixB=b,initial_guess=initial_guess,Figures=significantFigures)
         if NumberOfIterations!=-1:
             seidel.solve_with_iterations(num_iterations=NumberOfIterations)
-            solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),NumberOfIterations]
+            solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),NumberOfIterations,seidel.getSteps()]
         else:
             seidel.solve_with_tolerance(tolerance=AbseluteRelativeError)
-            solution=["Gauss Seidel",seidel.getSolution,seidel.getExcutionTime(),seidel.getIterations()]
+            solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),seidel.getIterations(),seidel.getSteps()]
 
         return solution
         

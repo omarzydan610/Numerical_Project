@@ -129,8 +129,10 @@ class Solve(QWidget):
 
 
     def setSolution(self, solution):
-        if(len(solution)==4 and (solution[0]=="Doolittle" or solution[0]=="Crout" or solution[0]=="Cholesky" or solution[0]=="Gauss")):
+        if(len(solution)==4 and (solution[0]=="Doolittle" or solution[0]=="Crout" or solution[0]=="Cholesky" or solution[0]=="Gauss" or solution[0]=="Gauss Jordan")):
             self.steps=solution[3]
+        elif(len(solution)==5 and (solution[0]=="Jacobi" or solution[0]=="Gauss Seidel")):
+            self.steps=solution[4]
         clear_layout(self.solution_layout)
         if solution == "error1":
             self.error_message.setText("There Is No Unique Solution")
