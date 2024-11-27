@@ -3,7 +3,9 @@ import numpy as np
 
 
 class Cholesky:
+    e
     def __init__(self, matrixA, matrixB, figures):
+        self.eigenvalues = np.linalg.eigvals(matrixA)
         self.matrix = np.matrix(matrixA)
         self.n = len(matrixA)
         self.b = matrixB
@@ -46,7 +48,11 @@ the equation is:
             LY = b
         """
         return steps
-
+    def checkPositiveDefinite(self):
+        for i in self.eigenvalues:
+            if i <= 0:
+                return "The matrix is not positive definite" + str(self.eigenvalues)
+        return True
     def checkSymmetric(self):
         for i in range(self.n):
             for j in range(self.n):
