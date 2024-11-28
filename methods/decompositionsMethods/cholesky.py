@@ -99,7 +99,7 @@ x vector = {self.x}
         
 
     def solve(self):
-        start_time = time.time()
+        start_time = time.perf_counter_ns()
         self.decompose()
         for i in range(self.n):
             sumVar = 0
@@ -112,4 +112,4 @@ x vector = {self.x}
             for j in range(i + 1, self.n):
                 sumVar += self.L[j, i] * self.x[j]
             self.x[i] = (self.y[i] * 1.0 - sumVar) * 1.0 / self.L[i, i]
-        self.execution_time = time.time() - start_time
+        self.execution_time = time.perf_counter_ns() - start_time

@@ -52,7 +52,7 @@ class Gauss:
     def gaussScale_solve(self, system, n, signifcantFigure):
         system = np.array(system, dtype=float)
         x = np.zeros(n)
-        start_time = time.time()
+        start_time = time.perf_counter_ns()
 
         A = system[:, :-1]
         b = system[:, -1]
@@ -86,7 +86,7 @@ class Gauss:
             self.steps += "\n\n"
             step_number += 1
 
-        end_time = time.time()
+        end_time = time.perf_counter_ns()
         self.time = end_time - start_time  # Set execution time
         self.res = np.round(x, signifcantFigure)  # Set solution
         self.setBackwardSubstitution(x, n, signifcantFigure)
@@ -95,7 +95,7 @@ class Gauss:
         system = np.array(system, dtype=float)
         x = np.zeros(n)
 
-        start_time = time.time()
+        start_time = time.perf_counter_ns()
 
         for i in range(n):
             self.steps += f">> step {i+1}\n"
@@ -131,8 +131,8 @@ class Gauss:
 
             x[k] = (system[k][n] - d) / system[k][k]
 
-        end_time = time.time()
-        self.time = end_time - start_time  # Set execution time
+        end_time = time.perf_counter_ns()
+        self.time = (end_time - start_time) # Set execution time
         self.res = np.round(x, signifcantFigure)  # Set solution
 
         self.setBackwardSubstitution(x, n, signifcantFigure)

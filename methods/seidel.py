@@ -50,7 +50,7 @@ class Seidel:
         
         self.steps += f"Given intial guess of solution as {self.initial_guess}"
         self.steps += "\n"
-        startTime=time.time()
+        startTime=time.perf_counter_ns()
         for t in range(num_iterations):
             self.steps += "\n"
             self.steps += f"    iteration # {t+1}"
@@ -70,12 +70,12 @@ class Seidel:
             
             self.steps+=f"      Solution after #{t+1} iteration is {self.old}"
             self.steps+="\n\n"
-        endTime=time.time()
+        endTime=time.perf_counter_ns()
         self.time=endTime - startTime
         self.res=self.new
 
     def solve_with_tolerance(self, tolerance):
-        startTime = time.time()
+        startTime = time.perf_counter_ns()
         old = self.new[:] 
         tolerance /= 100
         valid = False
@@ -115,7 +115,7 @@ class Seidel:
             self.steps+="\n\n"
             old = self.new[:]
 
-        endTime = time.time()
+        endTime = time.perf_counter_ns()
         self.time = endTime - startTime
         self.res = self.new[:]
         self.iteration = iteration

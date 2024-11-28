@@ -52,7 +52,7 @@ class GaussJordan :
     def jordanScale_solve(self, system, n, signifcantFigure):
         system = np.array(system, dtype=float)
         x = np.zeros(n)
-        start_time = time.perf_counter()
+        start_time = time.perf_counter_ns()
 
         A = system[:, :-1]
         b = system[:, -1]
@@ -91,7 +91,7 @@ class GaussJordan :
         for i in range(n):
             x[i] = system[i][n] / system[i][i]
 
-        end_time = time.perf_counter()
+        end_time = time.perf_counter_ns()
         self.time = end_time - start_time  # Set execution time
         self.res = np.round(x, signifcantFigure)  # Set solution
         self.setBackwardSubstitution(x, n, signifcantFigure)
@@ -99,7 +99,7 @@ class GaussJordan :
     def solve(self, system, n, signifcantFigure=3):
         system = np.array(system, dtype=float)
         x = np.zeros(n)
-        start_time = time.perf_counter()
+        start_time = time.perf_counter_ns()
         for i in range(n):
             self.steps += f">> step {i+1}\n"
             max_value = abs(system[i][i])
@@ -133,7 +133,7 @@ class GaussJordan :
             step_number += 1
         for i in range(n):
             x[i] = system[i][n] / system[i][i]
-        end_time = time.perf_counter()
+        end_time = time.perf_counter_ns()
         self.time = end_time - start_time  # Set execution time
         self.res = np.round(x, signifcantFigure)  # Set solution
         self.setBackwardSubstitution(x, n, signifcantFigure)

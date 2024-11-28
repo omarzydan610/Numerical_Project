@@ -82,7 +82,7 @@ x vector = {self.x}
                 self.L[i, k] = (self.A[i, k] - sum_var) / self.U[k, k]
 
     def solve(self):
-        start_time = time.time()
+        start_time = time.perf_counter_ns()
         self.decompose()
 
         for i in range(self.n):
@@ -98,5 +98,5 @@ x vector = {self.x}
                 sum_var += self.U[i, j] * self.x[j]
             self.x[i] = (self.y[i] - sum_var) / self.U[i, i]
 
-        self.execution_time = time.time() - start_time
+        self.execution_time = time.perf_counter_ns() - start_time
         

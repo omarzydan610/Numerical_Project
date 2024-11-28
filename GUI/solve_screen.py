@@ -27,8 +27,12 @@ class Solve(QWidget):
         self.execution_time_field.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.execution_time_field.setStyleSheet("color:black;")
         
+        self.execution_time_unit = QLabel("ms")
+        self.execution_time_unit.setStyleSheet("color:black;")
+
         execution_time_layout.addWidget(self.execution_time_label)
         execution_time_layout.addWidget(self.execution_time_field)
+        execution_time_layout.addWidget(self.execution_time_unit)
         
         font_metrics = QFontMetrics(self.execution_time_field.font())
         text_width = font_metrics.horizontalAdvance(self.execution_time_field.text()) + 30  
@@ -170,7 +174,7 @@ class Solve(QWidget):
             self.solve_label.setVisible(True)
             self.steps_button.setVisible(True)
         
-        self.execution_time_field.setText(f"{round(solution[2], 9)}")
+        self.execution_time_field.setText(f"{solution[2]/1000000}")
         font_metrics = QFontMetrics(self.execution_time_field.font())
         text_width = font_metrics.horizontalAdvance(f"{round(solution[2], 9)}") + 30 
         self.execution_time_field.setFixedWidth(text_width)

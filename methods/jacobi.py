@@ -43,7 +43,7 @@ class Jacobi:
 
     def solve_with_iterations(self, num_iterations):
         self.steps += f"Given initial guess of solution as {self.old}\n\n\n"
-        start_time = time.time()
+        start_time = time.perf_counter_ns()
         for t in range(num_iterations):
             self.steps += f"    Iteration # {t + 1}\n"
             for i in range(len(self.matrixB)):
@@ -58,7 +58,7 @@ class Jacobi:
             self.old = self.new[:]
             self.new = [round(num, self.SignificantFigures) for num in self.new]
             self.steps += f"      Solution after iteration #{t + 1}: {self.new}\n\n"
-        end_time = time.time()
+        end_time = time.perf_counter_ns()
         self.time = end_time - start_time
         self.res = self.new
 
@@ -67,7 +67,7 @@ class Jacobi:
         valid = False
         iteration = 0
         self.steps += f"Given initial guess of solution as {self.old}\n\n"
-        start_time = time.time()
+        start_time = time.perf_counter_ns()
         while not valid:
             valid = True
             iteration += 1
@@ -88,7 +88,7 @@ class Jacobi:
             self.old = self.new[:]
             self.new = [round(num, self.SignificantFigures) for num in self.new]
             self.steps += f"      Solution after iteration #{iteration}: {self.new}\n\n"
-        end_time = time.time()
+        end_time = time.perf_counter_ns()
         self.time = end_time - start_time
         self.res = self.new
         self.iterations = iteration
