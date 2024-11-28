@@ -42,12 +42,12 @@ class Cholesky:
         for i in self.L:
             matrixL += "|  "
             for j in i:
-                matrixL += f"{SFCalc(j, 3)}  "
+                matrixL += f"{round(j, 3)}  "
             matrixL += "|\n        "
         for i in np.transpose(self.L):
             matrixU += "|  "
             for j in i:
-                matrixU += f"{SFCalc(j, 3)}  "
+                matrixU += f"{round(j, 3)}  "
             matrixU += "|\n        "
         steps = f"""
 the equation is:

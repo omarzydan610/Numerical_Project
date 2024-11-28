@@ -33,14 +33,14 @@ class GaussJordan :
         for i in matrix:
             self.steps += "        |  "
             for j in i:
-                self.steps += f"{SFCalc(j, signifcantFigure)}   "
+                self.steps += f"{round(j, signifcantFigure)}   "
             self.steps += "|\n"
 
     def setBackwardSubstitution(self, x, index, signifcantFigure):
         self.steps += ">> final step\n" 
         self.steps += "    backward substitution\n"
         for i in x[-1::-1]:
-            self.steps += f"        X{index} = {SFCalc(i, signifcantFigure)}\n" 
+            self.steps += f"        X{index} = {round(i, signifcantFigure)}\n" 
             index -= 1
 
     def getSolution(self):
@@ -93,7 +93,7 @@ class GaussJordan :
 
         end_time = time.perf_counter()
         self.time = end_time - start_time  # Set execution time
-        self.res = np.SFCalc(x, signifcantFigure)  # Set solution
+        self.res = np.round(x, signifcantFigure)  # Set solution
         self.setBackwardSubstitution(x, n, signifcantFigure)
 
     def solve(self, system, n, signifcantFigure=3):
@@ -108,7 +108,7 @@ class GaussJordan :
                 if abs(system[j][i]) > max_value:
                     max_value = abs(system[j][i])
                     max_index = j
-            self.steps += f"    The largest pivot is '{SFCalc(max_value, signifcantFigure)}' at index '{max_index+1}'\n"
+            self.steps += f"    The largest pivot is '{round(max_value, signifcantFigure)}' at index '{max_index+1}'\n"
             if max_index != i:  # Interchanging
                 system[[i, max_index]] = system[[max_index, i]]
             self.steps += "    System after interchanging:"
@@ -135,5 +135,5 @@ class GaussJordan :
             x[i] = system[i][n] / system[i][i]
         end_time = time.perf_counter()
         self.time = end_time - start_time  # Set execution time
-        self.res = np.SFCalc(x, signifcantFigure)  # Set solution
+        self.res = np.round(x, signifcantFigure)  # Set solution
         self.setBackwardSubstitution(x, n, signifcantFigure)
