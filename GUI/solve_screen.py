@@ -20,15 +20,16 @@ class Solve(QWidget):
         container_layout.addWidget(QLabel(" "))
 
         execution_time_layout = QHBoxLayout()
-        self.execution_time_label = QLabel("Execution Time:")
+        self.execution_time_unit = QLabel("ms")
+        self.execution_time_unit.setStyleSheet("color:black;")
+        self.execution_time_label = QLabel("Execution Time in ms:")
         self.execution_time_label.setStyleSheet("color:black;")
         self.execution_time_field = QLineEdit()
         self.execution_time_field.setReadOnly(True)
         self.execution_time_field.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.execution_time_field.setStyleSheet("color:black;")
         
-        self.execution_time_unit = QLabel("ms")
-        self.execution_time_unit.setStyleSheet("color:black;")
+        
 
         execution_time_layout.addWidget(self.execution_time_label)
         execution_time_layout.addWidget(self.execution_time_field)
@@ -137,6 +138,7 @@ class Solve(QWidget):
             self.steps=solution[3]
         elif(len(solution)==5 and (solution[0]=="Jacobi" or solution[0]=="Gauss Seidel")):
             self.steps=solution[4]
+        
         clear_layout(self.solution_layout)
         if solution == "error1":
             self.error_message.setText("There Is No Unique Solution")
@@ -157,6 +159,33 @@ class Solve(QWidget):
             self.method_label.setVisible(False)
             self.execution_time_field.setVisible(False)
             self.execution_time_label.setVisible(False)
+            self.execution_time_unit.setVisible(False)
+            self.iterations_field.setVisible(False)
+            self.iterations_label.setVisible(False)
+            self.iterations_space.setVisible(False)
+            self.solve_label.setVisible(False)
+            self.steps_button.setVisible(False)
+            return
+        elif solution=="error3":
+            self.error_message.setText("The Matrix is Not Symmetric")
+            self.error_message.setVisible(True)
+            self.method_label.setVisible(False)
+            self.execution_time_field.setVisible(False)
+            self.execution_time_label.setVisible(False)
+            self.execution_time_unit.setVisible(False)
+            self.iterations_field.setVisible(False)
+            self.iterations_label.setVisible(False)
+            self.iterations_space.setVisible(False)
+            self.solve_label.setVisible(False)
+            self.steps_button.setVisible(False)
+            return
+        elif solution=="error4":
+            self.error_message.setText("The Matrix is Not Positive Definit")
+            self.error_message.setVisible(True)
+            self.method_label.setVisible(False)
+            self.execution_time_field.setVisible(False)
+            self.execution_time_label.setVisible(False)
+            self.execution_time_unit.setVisible(False)
             self.iterations_field.setVisible(False)
             self.iterations_label.setVisible(False)
             self.iterations_space.setVisible(False)
@@ -168,6 +197,7 @@ class Solve(QWidget):
             self.method_label.setVisible(True)
             self.execution_time_field.setVisible(True)
             self.execution_time_label.setVisible(True)
+            self.execution_time_unit.setVisible(True)
             self.iterations_field.setVisible(True)
             self.iterations_label.setVisible(True)
             self.iterations_space.setVisible(True)

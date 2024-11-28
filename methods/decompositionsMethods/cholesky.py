@@ -73,15 +73,15 @@ x vector = {self.x}
             if i <= 0:
                 return False
         return True
+
     def checkSymmetric(self):
         for i in range(self.n):
             for j in range(self.n):
                 if self.matrix[i, j] != self.matrix[j, i]:
-                    self.flag = False
-                    return
+                    return False
                 else:
                     continue
-        return self.flag
+        return True
 
     def decompose(self):
         for i in range(self.n):
@@ -95,8 +95,6 @@ x vector = {self.x}
                     for z in range(j):
                         sumVar += self.L[j, z] * self.L[i, z]
                     self.L[i, j] = (self.matrix[i, j] - sumVar) / (self.L[j, j])
-
-        
 
     def solve(self):
         start_time = time.perf_counter_ns()

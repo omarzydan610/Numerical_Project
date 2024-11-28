@@ -79,9 +79,15 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
 
     elif(method=="Cholesky"):
         cholesky = Cholesky(matrixA=a, matrixB=b, figures=significantFigures)
-        cholesky.solve()
-        solution=["Cholesky", cholesky.getSolution(), cholesky.getExcutionTime(), cholesky.getSteps()]
-        return solution 
+        if cholesky.checkSymmetric():
+            if cholesky.checkPositiveDefinite():
+                cholesky.solve()
+                solution=["Cholesky", cholesky.getSolution(), cholesky.getExcutionTime(), cholesky.getSteps()]
+                return solution
+            else :
+                return "error4"
+        else:
+            return "error3"
 
     elif(method=="Jacobi"):
         initial_guess=[float(element) for element in initialGuess]
