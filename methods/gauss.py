@@ -1,5 +1,21 @@
 import numpy as np
 import time
+import math
+
+def SFCalc(number, significantFigures):
+    if number == 0:
+        return 0
+
+    # Calculate the order of magnitude of the number
+    order_of_magnitude = math.floor(math.log10(abs(number)))
+    
+    # Scale the number to the desired significant figures
+    scale = 10**(significantFigures - 1 - order_of_magnitude)
+    scaled_number = math.trunc(number * scale)
+    
+    # Scale back to the original magnitude
+    result = scaled_number / scale
+    return result
 
 
 class Gauss:
@@ -17,14 +33,14 @@ class Gauss:
         for i in matrix:
             self.steps += "        |  "
             for j in i:
-                self.steps += f"{round(j, signifcantFigure)}   "
+                self.steps += f"{SFCalc(j, signifcantFigure)}   "
             self.steps += "|\n"
 
     def setBackwardSubstitution(self, x, index, signifcantFigure):
         self.steps += ">> final step\n"
         self.steps += "    backward substitution\n"
         for i in x[-1::-1]:
-            self.steps += f"        X{index} = {round(i, signifcantFigure)}\n"
+            self.steps += f"        X{index} = {SFCalc(i, signifcantFigure)}\n"
             index -= 1
 
     def getSolution(self):
@@ -72,7 +88,7 @@ class Gauss:
 
         end_time = time.time()
         self.time = end_time - start_time  # Set execution time
-        self.res = np.round(x, signifcantFigure)  # Set solution
+        self.res = np.SFCalc(x, signifcantFigure)  # Set solution
         self.setBackwardSubstitution(x, n, signifcantFigure)
 
     def solve(self, system, n, signifcantFigure=3):
@@ -91,7 +107,7 @@ class Gauss:
                 if abs(system[j][i]) > max_value:
                     max_value = abs(system[j][i])
                     max_index = j
-            self.steps += f"    The largest pivot is '{round(max_value, signifcantFigure)}' at index '{max_index+1}'\n"
+            self.steps += f"    The largest pivot is '{SFCalc(max_value, signifcantFigure)}' at index '{max_index+1}'\n"
 
             if max_index != i:  # Interchanging
                 system[[i, max_index]] = system[[max_index, i]]
@@ -117,6 +133,6 @@ class Gauss:
 
         end_time = time.time()
         self.time = end_time - start_time  # Set execution time
-        self.res = np.round(x, signifcantFigure)  # Set solution
+        self.res = np.SFCalc(x, signifcantFigure)  # Set solution
 
         self.setBackwardSubstitution(x, n, signifcantFigure)

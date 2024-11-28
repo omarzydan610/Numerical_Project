@@ -1,5 +1,20 @@
 import time
+import math
 
+def SFCalc(number, significantFigures):
+    if number == 0:
+        return 0
+
+    # Calculate the order of magnitude of the number
+    order_of_magnitude = math.floor(math.log10(abs(number)))
+    
+    # Scale the number to the desired significant figures
+    scale = 10**(significantFigures - 1 - order_of_magnitude)
+    scaled_number = math.trunc(number * scale)
+    
+    # Scale back to the original magnitude
+    result = scaled_number / scale
+    return result
 
 
 class Seidel:
@@ -45,9 +60,9 @@ class Seidel:
                 self.steps += f"        X{i+1} = ( {self.matrixB[i]} "
                 for j in range(len(self.matrixB)):
                     if i != j:
-                        sum -= round(float(self.matrixA[i][j] )* float(self.new[j]), self.SignificantFigures)
+                        sum -= SFCalc(float(self.matrixA[i][j] )* float(self.new[j]), self.SignificantFigures)
                         self.steps += f"+ {-1*self.matrixA[i][j]} ({self.new[j]}) "
-                self.new[i] = round(sum / self.matrixA[i][i], self.SignificantFigures)
+                self.new[i] = SFCalc(sum / self.matrixA[i][i], self.SignificantFigures)
                 self.steps += f")/{self.matrixA[i][i]} = {self.new[i]}\n"
             self.steps+="\n"
             
@@ -82,10 +97,10 @@ class Seidel:
                 self.steps += f"        X{i+1} = ( {self.matrixB[i]} "
                 for j in range(len(self.matrixB)):
                     if i != j:
-                        sum -= round(float(self.matrixA[i][j]) * float(self.new[j]), self.SignificantFigures)
+                        sum -= SFCalc(float(self.matrixA[i][j]) * float(self.new[j]), self.SignificantFigures)
                         if iteration<=10:
                             self.steps += f"+ {-1*self.matrixA[i][j]} ({self.new[j]}) "
-                self.new[i] = round(sum / self.matrixA[i][i], self.SignificantFigures)
+                self.new[i] = SFCalc(sum / self.matrixA[i][i], self.SignificantFigures)
             
                 self.steps += f")/{self.matrixA[i][i]} = {self.new[i]}"
                 self.steps+="\n"

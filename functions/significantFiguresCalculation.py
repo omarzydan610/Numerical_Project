@@ -2,7 +2,7 @@ import math
 
 def significantFiguresCalculation(number, significantFigures):
     if number == 0:
-        return 0  # If the number is 0, it has no significant figures.
+        return 0
 
     # Calculate the order of magnitude of the number
     order_of_magnitude = math.floor(math.log10(abs(number)))

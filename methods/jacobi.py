@@ -1,5 +1,20 @@
 import time
+import math
 
+def SFCalc(number, significantFigures):
+    if number == 0:
+        return 0
+
+    # Calculate the order of magnitude of the number
+    order_of_magnitude = math.floor(math.log10(abs(number)))
+    
+    # Scale the number to the desired significant figures
+    scale = 10**(significantFigures - 1 - order_of_magnitude)
+    scaled_number = math.trunc(number * scale)
+    
+    # Scale back to the original magnitude
+    result = scaled_number / scale
+    return result
 
 
 class Jacobi:
@@ -36,12 +51,12 @@ class Jacobi:
                 self.steps += f"        X{i+1} = ({self.matrixB[i]} "
                 for j in range(len(self.matrixB)):
                     if i != j:
-                        self.new[i] -= round(float(self.matrixA[i][j]) * float(self.old[j]), self.SignificantFigures)
+                        self.new[i] -= SFCalc(float(self.matrixA[i][j]) * float(self.old[j]), self.SignificantFigures)
                         self.steps += f"+ {-1 * self.matrixA[i][j]}({self.old[j]}) "
-                self.new[i] /= round(self.matrixA[i][i], self.SignificantFigures)
-                self.steps += f")/{self.matrixA[i][i]} = {round(self.new[i], self.SignificantFigures)}\n"
+                self.new[i] /= SFCalc(self.matrixA[i][i], self.SignificantFigures)
+                self.steps += f")/{self.matrixA[i][i]} = {SFCalc(self.new[i], self.SignificantFigures)}\n"
             self.old = self.new[:]
-            self.new = [round(num, self.SignificantFigures) for num in self.new]
+            self.new = [SFCalc(num, self.SignificantFigures) for num in self.new]
             self.steps += f"      Solution after iteration #{t + 1}: {self.new}\n\n"
         end_time = time.time()
         self.time = end_time - start_time
@@ -62,16 +77,16 @@ class Jacobi:
                 self.steps += f"        X{i+1} = ({self.matrixB[i]} "
                 for j in range(len(self.matrixB)):
                     if i != j:
-                        self.new[i] -= round(float(self.matrixA[i][j]) * float(self.old[j]), self.SignificantFigures)
+                        self.new[i] -= SFCalc(float(self.matrixA[i][j]) * float(self.old[j]), self.SignificantFigures)
                         self.steps += f"+ {-1 * self.matrixA[i][j]}({self.old[j]}) "
-                self.new[i] /= round(self.matrixA[i][i], self.SignificantFigures)
+                self.new[i] /= SFCalc(self.matrixA[i][i], self.SignificantFigures)
                 relative_error = abs(float(self.new[i]) - float(self.old[i])) / abs(self.new[i])
-                self.steps += f")/{self.matrixA[i][i]} = {round(self.new[i], self.SignificantFigures)}\n"
+                self.steps += f")/{self.matrixA[i][i]} = {SFCalc(self.new[i], self.SignificantFigures)}\n"
                 self.steps += f"           # Relative error for X{i+1} = {relative_error}\n"
                 if relative_error > tolerance:
                     valid = False
             self.old = self.new[:]
-            self.new = [round(num, self.SignificantFigures) for num in self.new]
+            self.new = [SFCalc(num, self.SignificantFigures) for num in self.new]
             self.steps += f"      Solution after iteration #{iteration}: {self.new}\n\n"
         end_time = time.time()
         self.time = end_time - start_time

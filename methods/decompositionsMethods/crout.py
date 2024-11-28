@@ -1,6 +1,21 @@
 import time
 import numpy as np
+import math
 
+def SFCalc(number, significantFigures):
+    if number == 0:
+        return 0
+
+    # Calculate the order of magnitude of the number
+    order_of_magnitude = math.floor(math.log10(abs(number)))
+    
+    # Scale the number to the desired significant figures
+    scale = 10**(significantFigures - 1 - order_of_magnitude)
+    scaled_number = math.trunc(number * scale)
+    
+    # Scale back to the original magnitude
+    result = scaled_number / scale
+    return result
 
 
 class Crout:
@@ -26,12 +41,12 @@ class Crout:
         for i in self.L:
             matrixL += "|  "
             for j in i:
-                matrixL += f"{round(j, 3)}  "
+                matrixL += f"{SFCalc(j, 3)}  "
             matrixL += "|\n        "
         for i in self.U:
             matrixU += "|  "
             for j in i:
-                matrixU += f"{round(j, 3)}  "
+                matrixU += f"{SFCalc(j, 3)}  "
             matrixU += "|\n        "
         steps = f"""
 the equation is:
