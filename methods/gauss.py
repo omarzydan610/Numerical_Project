@@ -1,6 +1,7 @@
 import numpy as np
 import time
 
+
 class Gauss:
 
     def __init__(self):
@@ -61,7 +62,7 @@ class Gauss:
             self.steps += "\n\n"
             
 
-        step_number = n + 1
+        step_number = n 
         for i in range(n - 1, -1, -1):  # Backward Substitution
             self.steps += f">> step {step_number}\n"
             x[i] = (system[i, -1] - np.dot(system[i, i + 1:n], x[i + 1:n])) / system[i, i]

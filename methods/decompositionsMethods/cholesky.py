@@ -2,6 +2,7 @@ import time
 import numpy as np
 
 
+
 class Cholesky:
     def __init__(self, matrixA, matrixB, figures):
         self.eigenvalues = np.linalg.eigvals(matrixA)

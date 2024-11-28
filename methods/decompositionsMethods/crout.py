@@ -2,6 +2,7 @@ import time
 import numpy as np
 
 
+
 class Crout:
     def __init__(self, matrixA, matrixB, figures):
         self.matrix = np.matrix(matrixA)

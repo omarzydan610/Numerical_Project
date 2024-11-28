@@ -1,4 +1,7 @@
 import time
+
+
+
 class Seidel:
     
     def __init__(self, matrixA, matrixB, initial_guess, Figures):

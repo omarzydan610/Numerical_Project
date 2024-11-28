@@ -1,6 +1,8 @@
 import numpy as np
 import time
 
+
+
 class GaussJordan :
 
     def __init__(self):

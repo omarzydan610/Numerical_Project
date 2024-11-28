@@ -1,5 +1,7 @@
 import time
 
+
+
 class Jacobi:
     def __init__(self, matrixA, matrixB, initial_guess, Figures):
         self.matrixA = matrixA
