@@ -28,6 +28,7 @@ class Crout:
         self.U = np.zeros_like(matrixA)
         self.y = np.zeros_like(self.b)
         self.execution_time = 0
+        self.significantFigures = figures
     
     def getExcutionTime(self):
         return self.execution_time
@@ -41,12 +42,12 @@ class Crout:
         for i in self.L:
             matrixL += "|  "
             for j in i:
-                matrixL += f"{round(j, 3)}  "
+                matrixL += f"{SFCalc(j, 3)}  "
             matrixL += "|\n        "
         for i in self.U:
             matrixU += "|  "
             for j in i:
-                matrixU += f"{round(j, 3)}  "
+                matrixU += f"{SFCalc(j, 3)}  "
             matrixU += "|\n        "
         steps = f"""
 the equation is:
@@ -107,6 +108,8 @@ x vector = {self.x}
             sumVar = 0
             for j in range(i + 1, self.n):
                 sumVar += self.U[i, j] * self.x[j]
-            self.x[i] = (self.y[i]  - sumVar) 
+            self.x[i] = (self.y[i]  - sumVar)
+        self.x = [SFCalc(element, self.significantFigures) for element in self.x]
+        self.y = [SFCalc(element, self.significantFigures) for element in self.y]
         self.execution_time = time.perf_counter_ns() - start_time
     

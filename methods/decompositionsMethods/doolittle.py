@@ -27,6 +27,7 @@ class Doolittle:
         self.y = np.zeros_like(self.b)  
         self.x = np.zeros_like(self.b)  
         self.execution_time = 0
+        self.significantFigures = figures
 
     def getSteps(self):
         matrixL = ""
@@ -34,12 +35,12 @@ class Doolittle:
         for i in self.L:
             matrixL += "|  "
             for j in i:
-                matrixL += f"{round(j, 3)}  "
+                matrixL += f"{SFCalc(j, 3)}  "
             matrixL += "|\n        "
         for i in self.U:
             matrixU += "|  "
             for j in i:
-                matrixU += f"{round(j, 3)}  "
+                matrixU += f"{SFCalc(j, 3)}  "
             matrixU += "|\n        "
         steps = f"""
 the equation is:
@@ -97,6 +98,7 @@ x vector = {self.x}
             for j in range(i + 1, self.n):  # Replace sum with loop
                 sum_var += self.U[i, j] * self.x[j]
             self.x[i] = (self.y[i] - sum_var) / self.U[i, i]
-
+        self.x = [SFCalc(element, self.significantFigures) for element in self.x]
+        self.y = [SFCalc(element, self.significantFigures) for element in self.y]
         self.execution_time = time.perf_counter_ns() - start_time
         

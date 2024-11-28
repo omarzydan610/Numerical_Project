@@ -28,6 +28,7 @@ class Cholesky:
         self.x = np.zeros_like(matrixB)
         self.flag = True
         self.y = np.zeros_like(self.b)
+        self.significantFigures = figures
         self.execution_time = 0
 
     def getExcutionTime(self):
@@ -42,12 +43,12 @@ class Cholesky:
         for i in self.L:
             matrixL += "|  "
             for j in i:
-                matrixL += f"{round(j, 3)}  "
+                matrixL += f"{SFCalc(j, 3)}  "
             matrixL += "|\n        "
         for i in np.transpose(self.L):
             matrixU += "|  "
             for j in i:
-                matrixU += f"{round(j, 3)}  "
+                matrixU += f"{SFCalc(j, 3)}  "
             matrixU += "|\n        "
         steps = f"""
 the equation is:
@@ -110,4 +111,6 @@ x vector = {self.x}
             for j in range(i + 1, self.n):
                 sumVar += self.L[j, i] * self.x[j]
             self.x[i] = (self.y[i] * 1.0 - sumVar) * 1.0 / self.L[i, i]
+        self.x = [SFCalc(element, self.significantFigures) for element in self.x]
+        self.y = [SFCalc(element, self.significantFigures) for element in self.y]
         self.execution_time = time.perf_counter_ns() - start_time
