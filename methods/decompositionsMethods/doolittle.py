@@ -67,9 +67,17 @@ x vector = {self.x}
     
     def getSolution(self):
         return self.x
+    def checkPoiviting(self,n):
+        if self.A[n,n] == 0:
+            for i in range(n+1,self.n):
+                if self.A[i,n] != 0:
+                    self.A[[n,i],:]=self.A[[i,n],:]
+                    break
+        return self.A
     
     def decompose(self):
         for k in range(self.n):
+            self.checkPoiviting(k)
             for j in range(k, self.n):
                 sum_var = 0
                 for m in range(k): 
