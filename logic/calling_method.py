@@ -34,11 +34,7 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
     matrix = np.array(a)
     determinant = np.linalg.det(matrix)
     if(determinant==0):
-        return "error1"
-    
-    semetric = np.array_equal(matrix, matrix.T)
-    
-
+        return "There Is No Unique Solution"
 
 
     if(method=="Gauss"):
@@ -85,29 +81,21 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
                 solution=["Cholesky", cholesky.getSolution(), cholesky.getExcutionTime(), cholesky.getSteps()]
                 return solution
             else :
-                return "error4"
+                return "The Matrix is Not Positive Definit"
         else:
-            return "error3"
+            return "The Matrix is Not Symmetric"
 
     elif(method=="Jacobi"):
         initial_guess=[float(element) for element in initialGuess]
         if(diagonalyDominant(a)==False):
-            return "error2"
+            return "The Matrix is Not Diagonally Dominant"
         jacobi=Jacobi(matrixA=a,matrixB=b,initial_guess=initial_guess,Figures=significantFigures)
         if NumberOfIterations!=-1:
-            try:
-                jacobi.solve_with_iterations(num_iterations=NumberOfIterations)
-            except:
-                return "error5"
-            else:
-                solution=["Jacobi",jacobi.getSolution(),jacobi.getExecutionTime(),NumberOfIterations,jacobi.getSteps()]
+            jacobi.solve_with_iterations(num_iterations=NumberOfIterations)
+            solution=["Jacobi",jacobi.getSolution(),jacobi.getExecutionTime(),NumberOfIterations,jacobi.getSteps()]
         else:
-            try:
-                jacobi.solve_with_tolerance(tolerance=AbseluteRelativeError)
-            except:
-                return "error5"
-            else:
-                solution=["Jacobi",jacobi.getSolution(),jacobi.getExecutionTime(),jacobi.getIterations(),jacobi.getSteps()]
+            jacobi.solve_with_tolerance(tolerance=AbseluteRelativeError)
+            solution=["Jacobi",jacobi.getSolution(),jacobi.getExecutionTime(),jacobi.getIterations(),jacobi.getSteps()]
             
         return solution
     
@@ -115,23 +103,14 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
     elif(method=="Gauss Seidel"):
         initial_guess=[float(element) for element in initialGuess]
         if(diagonalyDominant(a)==False):
-            return "error2"
+            return "The Matrix is Not Diagonally Dominant"
         seidel = Seidel(matrixA=a,matrixB=b,initial_guess=initial_guess,Figures=significantFigures)
         if NumberOfIterations!=-1:
-            try:
-                seidel.solve_with_iterations(num_iterations=NumberOfIterations)
-            except:
-                return "error5"
-            else:
-                solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),NumberOfIterations,seidel.getSteps()]
+            seidel.solve_with_iterations(num_iterations=NumberOfIterations)
+            solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),NumberOfIterations,seidel.getSteps()]
         else:
-            try:
-                seidel.solve_with_tolerance(tolerance=AbseluteRelativeError)
-            except:
-                return "error5"
-            else:
-                solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),seidel.getIterations(),seidel.getSteps()]
-
+            seidel.solve_with_tolerance(tolerance=AbseluteRelativeError)
+            solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),seidel.getIterations(),seidel.getSteps()]
         return solution
         
     

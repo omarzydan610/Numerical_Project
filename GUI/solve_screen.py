@@ -140,7 +140,7 @@ class Solve(QWidget):
             self.steps=solution[4]
         
         clear_layout(self.solution_layout)
-        if solution == "error1":
+        if solution == "There Is No Unique Solution":
             self.error_message.setText("There Is No Unique Solution")
             self.error_message.setVisible(True)
             self.method_label.setVisible(False)
@@ -153,7 +153,7 @@ class Solve(QWidget):
             self.steps_button.setVisible(False)
             return
         
-        elif solution=="error2":
+        elif solution=="The Matrix is Not Diagonally Dominant":
             self.error_message.setText("The Matrix is Not Diagonally Dominant")
             self.error_message.setVisible(True)
             self.method_label.setVisible(False)
@@ -166,7 +166,7 @@ class Solve(QWidget):
             self.solve_label.setVisible(False)
             self.steps_button.setVisible(False)
             return
-        elif solution=="error3":
+        elif solution=="The Matrix is Not Symmetric":
             self.error_message.setText("The Matrix is Not Symmetric")
             self.error_message.setVisible(True)
             self.method_label.setVisible(False)
@@ -179,7 +179,7 @@ class Solve(QWidget):
             self.solve_label.setVisible(False)
             self.steps_button.setVisible(False)
             return
-        elif solution=="error4":
+        elif solution=="The Matrix is Not Positive Definit":
             self.error_message.setText("The Matrix is Not Positive Definit")
             self.error_message.setVisible(True)
             self.method_label.setVisible(False)
