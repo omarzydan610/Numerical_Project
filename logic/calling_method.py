@@ -95,11 +95,19 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
             return "error2"
         jacobi=Jacobi(matrixA=a,matrixB=b,initial_guess=initial_guess,Figures=significantFigures)
         if NumberOfIterations!=-1:
-            jacobi.solve_with_iterations(num_iterations=NumberOfIterations)
-            solution=["Jacobi",jacobi.getSolution(),jacobi.getExecutionTime(),NumberOfIterations,jacobi.getSteps()]
+            try:
+                jacobi.solve_with_iterations(num_iterations=NumberOfIterations)
+            except:
+                return "error5"
+            else:
+                solution=["Jacobi",jacobi.getSolution(),jacobi.getExecutionTime(),NumberOfIterations,jacobi.getSteps()]
         else:
-            jacobi.solve_with_tolerance(tolerance=AbseluteRelativeError)
-            solution=["Jacobi",jacobi.getSolution(),jacobi.getExecutionTime(),jacobi.getIterations(),jacobi.getSteps()]
+            try:
+                jacobi.solve_with_tolerance(tolerance=AbseluteRelativeError)
+            except:
+                return "error5"
+            else:
+                solution=["Jacobi",jacobi.getSolution(),jacobi.getExecutionTime(),jacobi.getIterations(),jacobi.getSteps()]
             
         return solution
     
@@ -110,11 +118,19 @@ def callingMethod(arr, method, numberEquations, initialGuess=0, significantFigur
             return "error2"
         seidel = Seidel(matrixA=a,matrixB=b,initial_guess=initial_guess,Figures=significantFigures)
         if NumberOfIterations!=-1:
-            seidel.solve_with_iterations(num_iterations=NumberOfIterations)
-            solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),NumberOfIterations,seidel.getSteps()]
+            try:
+                seidel.solve_with_iterations(num_iterations=NumberOfIterations)
+            except:
+                return "error5"
+            else:
+                solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),NumberOfIterations,seidel.getSteps()]
         else:
-            seidel.solve_with_tolerance(tolerance=AbseluteRelativeError)
-            solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),seidel.getIterations(),seidel.getSteps()]
+            try:
+                seidel.solve_with_tolerance(tolerance=AbseluteRelativeError)
+            except:
+                return "error5"
+            else:
+                solution=["Gauss Seidel",seidel.getSolution(),seidel.getExcutionTime(),seidel.getIterations(),seidel.getSteps()]
 
         return solution
         

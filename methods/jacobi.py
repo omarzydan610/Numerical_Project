@@ -80,9 +80,13 @@ class Jacobi:
                         self.new[i] -= SFCalc(float(self.matrixA[i][j]) * float(self.old[j]), self.SignificantFigures)
                         self.steps += f"+ {-1 * self.matrixA[i][j]}({self.old[j]}) "
                 self.new[i] /= SFCalc(self.matrixA[i][i], self.SignificantFigures)
-                relative_error = abs(float(self.new[i]) - float(self.old[i])) / abs(self.new[i])
+                try:
+                    relative_error = abs(float(self.new[i]) - float(self.old[i])) / abs(self.new[i])
+                except:
+                    self.steps += "\n\ndivision by zero happened in relative error calculation\n\n"
+                    break
                 self.steps += f")/{self.matrixA[i][i]} = {SFCalc(self.new[i], self.SignificantFigures)}\n"
-                self.steps += f"           # Relative error for X{i+1} = {relative_error}\n"
+                self.steps += f"           # Relative error for X{i+1} = {SFCalc(relative_error,self.SignificantFigures)}\n"
                 if relative_error > tolerance:
                     valid = False
             self.old = self.new[:]
