@@ -8,7 +8,7 @@ from GUI.solve_screen import Solve
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("numerical methods")
+        self.setWindowTitle("Equations Solver")
         self.setGeometry(100, 100, 800, 600)
 
         # Create QStackedWidget to manage multiple pages

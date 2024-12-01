@@ -15,6 +15,7 @@ class Solve(QWidget):
         container_layout = QVBoxLayout()
 
         self.method_label = QLabel("Method:")
+        self.method_label.setStyleSheet("color:black;")
         self.method_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         container_layout.addWidget(self.method_label)
         container_layout.addWidget(QLabel(" "))
@@ -151,6 +152,7 @@ class Solve(QWidget):
             self.iterations_space.setVisible(False)
             self.solve_label.setVisible(False)
             self.steps_button.setVisible(False)
+            self.execution_time_unit.setVisible(False)
             return
         
         elif solution=="The Matrix is Not Diagonally Dominant":
@@ -165,6 +167,7 @@ class Solve(QWidget):
             self.iterations_space.setVisible(False)
             self.solve_label.setVisible(False)
             self.steps_button.setVisible(False)
+            self.execution_time_unit.setVisible(False)
             return
         elif solution=="The Matrix is Not Symmetric":
             self.error_message.setText("The Matrix is Not Symmetric")
@@ -178,6 +181,7 @@ class Solve(QWidget):
             self.iterations_space.setVisible(False)
             self.solve_label.setVisible(False)
             self.steps_button.setVisible(False)
+            self.execution_time_unit.setVisible(False)
             return
         elif solution=="The Matrix is Not Positive Definit":
             self.error_message.setText("The Matrix is Not Positive Definit")
@@ -191,6 +195,7 @@ class Solve(QWidget):
             self.iterations_space.setVisible(False)
             self.solve_label.setVisible(False)
             self.steps_button.setVisible(False)
+            self.execution_time_unit.setVisible(False)
             return
         else:
             self.error_message.setVisible(False)
@@ -203,6 +208,7 @@ class Solve(QWidget):
             self.iterations_space.setVisible(True)
             self.solve_label.setVisible(True)
             self.steps_button.setVisible(True)
+            self.execution_time_unit.setVisible(True)
         
         self.execution_time_field.setText(f"{solution[2]/1000000}")
         font_metrics = QFontMetrics(self.execution_time_field.font())
@@ -242,6 +248,7 @@ class Solve(QWidget):
             if (solution[0] == "Jacobi" or solution[0] == "Gauss Seidel" ):
                 self.iterations_label.setVisible(True)
                 self.iterations_field.setVisible(True)
+                self.iterations_field.setFixedWidth(70)
                 self.iterations_space.setVisible(True)
             else:
                 self.iterations_label.setVisible(False)
