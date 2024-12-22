@@ -71,11 +71,8 @@ class NonLinearMethods(QWidget):
         self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
     def show_matrix_screen(self, method):
-        if method == "LU Decomposition":
-            self.stacked_widget.setCurrentIndex(2)
-        else:
-            self.stacked_widget.setCurrentIndex(3)
-            self.stacked_widget.currentWidget().display_method(method)
+        self.stacked_widget.setCurrentIndex(3)
+
 
     def go_back(self):
         print("Back button clicked")  # Debugging line
