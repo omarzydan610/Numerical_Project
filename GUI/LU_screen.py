@@ -61,10 +61,10 @@ class LU(QWidget):
 
     def show_matrix_screen(self, method):
         # Pass the selected method to the second page
-        self.stacked_widget.setCurrentIndex(2)
+        self.stacked_widget.setCurrentIndex(3)
         # Get the second page widget and call its method to display the selected method
         self.stacked_widget.currentWidget().display_method(method)
         
     def go_back_to_methods(self):
-        self.stacked_widget.setCurrentIndex(0)
+        self.stacked_widget.setCurrentIndex(1)
 

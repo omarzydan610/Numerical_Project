@@ -268,7 +268,7 @@ class Matrix(QWidget):
     def go_back_to_methods(self):
         self.is_scaling_enabled=False
         self.scalling_checkBox.setChecked(False)
-        self.stacked_widget.setCurrentIndex(0)
+        self.stacked_widget.setCurrentIndex(1)
 
     def generate_matrix(self):
         # Clear any existing input fields
@@ -335,7 +335,7 @@ class Matrix(QWidget):
                     solution=callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value(),initialGuess=self.initial_Guess,NumberOfIterations=int(self.text_field_2.text()))
             else:
                 solution=callingMethod(arr=self.matrix_inputs, method=self.method, numberEquations=len(self.matrix_inputs), significantFigures=self.sfigures_input.value(), scalling=self.is_scaling_enabled)
-            self.stacked_widget.setCurrentIndex(3)
+            self.stacked_widget.setCurrentIndex(4)
             self.stacked_widget.currentWidget().setSolution(solution)
         
         

@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayo
 from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtCore import Qt
 
-class Methods(QWidget):
+class NonLinearMethods(QWidget):
     def __init__(self, stacked_widget):
         super().__init__()
         self.stacked_widget = stacked_widget
@@ -45,8 +45,8 @@ class Methods(QWidget):
         self.main_layout.addWidget(label, alignment=Qt.AlignmentFlag.AlignCenter)
 
         # List of method buttons
-        
-        button_texts = ["Gauss", "Gauss Jordan", "LU Decomposition", "Jacobi", "Gauss Seidel"]
+        button_texts = ["Bisection", "False-Position", "Fixed point", "Original Newton-Raphson", "Modified Newton-Raphson", "Secant Method"]
+
         for text in button_texts:
             btn = QPushButton(text, self)
             btn.clicked.connect(lambda checked, method=text: self.show_matrix_screen(method))
