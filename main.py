@@ -19,6 +19,7 @@ class MainWindow(QWidget):
         self.stacked_widget = QStackedWidget(self)
 
         # Create two pages
+        self.selct_eqyation_type_page = SelectEquationType(self.stacked_widget)
         self.methods_page = Methods(self.stacked_widget)
         self.LU_page = LU(self.stacked_widget)
         self.matrix_screen_page = Matrix(self.stacked_widget)
@@ -26,6 +27,7 @@ class MainWindow(QWidget):
         self.nonlinear_methods_page = NonLinearMethods(self.stacked_widget)
         self.PisecFalse_input_page = Pisection_falsePosition(self.stacked_widget)
         # Add pages to QStackedWidget
+        self.stacked_widget.addWidget(self.selct_eqyation_type_page)
         self.stacked_widget.addWidget(self.methods_page)
         self.stacked_widget.addWidget(self.LU_page)
         self.stacked_widget.addWidget(self.matrix_screen_page)

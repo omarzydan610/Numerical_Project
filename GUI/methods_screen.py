@@ -1,29 +1,58 @@
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QStackedWidget
+from pathlib import Path
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayout
+from PyQt6.QtGui import QPixmap, QIcon
 from PyQt6.QtCore import Qt
-
 
 class Methods(QWidget):
     def __init__(self, stacked_widget):
         super().__init__()
         self.stacked_widget = stacked_widget
-        
-        layout = QVBoxLayout()
 
+        self.main_layout = QVBoxLayout()
+
+        # Back button layout
+        self.backButton_latout = QHBoxLayout()
+        pixmap = QPixmap(str(Path("Numerical_lab/images/back_icon.png").resolve())).scaled(24, 24)  # Resize to 24x24 pixels
+        icon = QIcon(pixmap)
+
+        back_button = QPushButton(self)
+        back_button.setIcon(icon)  # Set the icon
+        back_button.setIconSize(back_button.sizeHint())  # Adjust icon size if needed
+        back_button.setFixedSize(24, 24)
+
+        # Custom style for back button
+        back_button.setStyleSheet("""
+            QPushButton {
+                border: none;
+                background-color: transparent;
+                min-width: 30px;
+                min-height: 30px;
+                padding: 0;
+                margin: 0;
+            }
+            QPushButton:hover {
+                background-color: #E0F7FA;  # Optional hover effect for the back button
+            }
+        """)  # Apply the custom style sheet
+
+        back_button.clicked.connect(self.go_back)
+        self.backButton_latout.addWidget(back_button, alignment=Qt.AlignmentFlag.AlignLeft)
+        self.main_layout.addLayout(self.backButton_latout)
+
+        # Label for method selection
         label = QLabel("Choose Method")
         label.setStyleSheet("font-size:50px; font-weight:bold; color:#439A97;")
-        layout.addWidget(label,alignment=Qt.AlignmentFlag.AlignCenter)
+        self.main_layout.addWidget(label, alignment=Qt.AlignmentFlag.AlignCenter)
 
-        # Create and connect buttons dynamically in a loop
+        # List of method buttons
+        
         button_texts = ["Gauss", "Gauss Jordan", "LU Decomposition", "Jacobi", "Gauss Seidel"]
         for text in button_texts:
             btn = QPushButton(text, self)
             btn.clicked.connect(lambda checked, method=text: self.show_matrix_screen(method))
-            layout.addWidget(btn)
+            self.main_layout.addWidget(btn)
 
-        # Set the layout for this widget
-        self.setLayout(layout)
-
-        # Apply the stylesheet for the entire widget
+        self.setLayout(self.main_layout)
         self.setStyleSheet("""
             QPushButton {
                 min-width: 600px;
@@ -31,22 +60,23 @@ class Methods(QWidget):
                 background-color: #439A97;
                 color: #F3F7EC;
                 border-radius: 5px;
-                padding: 10px;
-                margin: 15px 0;
+                padding: 7px;
+                margin: 10px 0;
                 font-size: 40px;
             }
             QPushButton:hover {
                 background-color: #62B6B7;
             }
         """)
-        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
     def show_matrix_screen(self, method):
-        # Pass the selected method to the second page
-        if(method == "LU Decomposition"):
-            self.stacked_widget.setCurrentIndex(1)
-        else:
+        if method == "LU Decomposition":
             self.stacked_widget.setCurrentIndex(2)
+        else:
+            self.stacked_widget.setCurrentIndex(3)
             self.stacked_widget.currentWidget().display_method(method)
-        # Get the second page widget and call its method to display the selected method
 
+    def go_back(self):
+        print("Back button clicked")  # Debugging line
+        self.stacked_widget.setCurrentIndex(0)

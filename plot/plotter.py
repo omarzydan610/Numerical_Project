@@ -1,7 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sp
+<<<<<<< HEAD
 from scipy.optimize import fsolve
+=======
+>>>>>>> 897def836a602b91d6d93f5b101d9774bc390977
 
 class Plotter:
     def __init__(self, equation: str, x_range=None):
@@ -12,6 +15,7 @@ class Plotter:
         x = sp.symbols('x')
         equation = self.equation.replace('e', f"{sp.E}")  
         expr = sp.sympify(equation)
+<<<<<<< HEAD
         f = sp.lambdify(x, expr, "numpy")
 
         def find_roots(func):
@@ -31,6 +35,15 @@ class Plotter:
             min_root, max_root = min(roots), max(roots)
             return (float(min_root) - 1, float(max_root) + 1)
         return (-10, 10)
+=======
+        roots = sp.solvers.solve(expr, x)
+        if roots:
+            roots = [root.evalf() for root in roots if root.is_real]
+            if roots:
+                min_root, max_root = min(roots), max(roots)
+                return (float(min_root) - 1, float(max_root) + 1)
+        return (-50, 50)
+>>>>>>> 897def836a602b91d6d93f5b101d9774bc390977
 
     def plot_equation(self):
         x = sp.symbols('x')
@@ -47,8 +60,13 @@ class Plotter:
         plt.title(f"Plot of the equation: {self.equation}")
         plt.xlabel('x')
         plt.ylabel('f(x)')
+<<<<<<< HEAD
         plt.axhline(0, color='black', linewidth=2)
         plt.axvline(0, color='black', linewidth=2)
+=======
+        plt.axhline(0, color='black',linewidth=2)
+        plt.axvline(0, color='black',linewidth=2)
+>>>>>>> 897def836a602b91d6d93f5b101d9774bc390977
         plt.grid(True)
         plt.legend()
         plt.show()
