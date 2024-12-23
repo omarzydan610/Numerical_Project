@@ -78,7 +78,9 @@ class NonLinearMethods(QWidget):
             self.stacked_widget.setCurrentIndex(6)
             self.stacked_widget.currentWidget().display_method(method)
         else: 
-            pass
+            self.stacked_widget.setCurrentIndex(7)
+            self.stacked_widget.currentWidget().display_method(method)
+            
 
     def go_back(self):
         print("Back button clicked")  # Debugging line

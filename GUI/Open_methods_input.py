@@ -1,12 +1,10 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt
 from pathlib import Path
-from PyQt6.QtGui import QIcon, QPixmap, QFont, QIntValidator, QDoubleValidator
-import matplotlib.pyplot as plt
-import numpy as np
+from PyQt6.QtGui import QIcon, QPixmap, QDoubleValidator
 from plot.plotter import Plotter
 
-class Pisection_falsePosition(QWidget):
+class open_methods_input(QWidget):
     def __init__(self, stacked_widget):
         super().__init__()
         self.method = ""
@@ -60,32 +58,22 @@ class Pisection_falsePosition(QWidget):
 
         # Upper and lower input fields for "x" in the same line
         self.lay_x = QHBoxLayout()
-        self.x_upper_label = QLabel("Upper x:", self)
-        self.x_upper_label.setStyleSheet(""" QLabel { font-size: 16px; margin-bottom: 5px; color:black; } """)
+        self.x_0_label = QLabel("Xo :", self)
+        self.x_0_label.setStyleSheet(""" QLabel { font-size: 16px; margin-bottom: 5px; color:black; } """)
         
-        self.x_upper_input = QLineEdit(self)
-        self.x_upper_input.setText("0")  # Set initial value for upper x
-        self.x_upper_input.setStyleSheet(""" QLineEdit { font-size: 16px; background-color:white; color:black; } """)
+        self.x_0_input = QLineEdit(self)
+        self.x_0_input.setText("0")  # Set initial value for upper x
+        self.x_0_input.setStyleSheet(""" QLineEdit { font-size: 16px; background-color:white; color:black; } """)
         
         # Set a validator to allow any numeric input (including decimals)
         validator = QDoubleValidator(self)
         validator.setBottom(-float('inf'))  # Allow negative numbers
         validator.setTop(float('inf'))  # Allow large numbers
-        self.x_upper_input.setValidator(validator)
-        
-        self.x_lower_label = QLabel("Lower x:", self)
-        self.x_lower_label.setStyleSheet(""" QLabel { font-size: 16px; margin-bottom: 5px; color:black; } """)
-        
-        self.x_lower_input = QLineEdit(self)
-        self.x_lower_input.setText("0")  # Set initial value for lower x
-        self.x_lower_input.setStyleSheet(""" QLineEdit { font-size: 16px; background-color:white; color:black; } """)
-        
-        self.x_lower_input.setValidator(validator)  # Using the same validator for lower x
+        self.x_0_input.setValidator(validator)
 
-        self.lay_x.addWidget(self.x_upper_label)
-        self.lay_x.addWidget(self.x_upper_input)
-        self.lay_x.addWidget(self.x_lower_label)
-        self.lay_x.addWidget(self.x_lower_input)
+
+        self.lay_x.addWidget(self.x_0_label)
+        self.lay_x.addWidget(self.x_0_input)
 
         # Layout for significant figures input (on a separate line)
         self.lay_sfigures = QHBoxLayout()
@@ -225,12 +213,14 @@ class Pisection_falsePosition(QWidget):
             self.equation_input.setText(new_text)
 
     def plot_equation(self):
-        plotter1 = Plotter(self.equation_input.text())
-        
-        try:
-            plotter1.plot_equation()
-        except :
-            QMessageBox.critical(self, "Error", f"Failed to plot the equation")
+        plotter = Plotter(self.equation_input.text())
+        if self.method == "Fixed point" :
+            try:
+                plotter.plot_g_x("x")
+            except :
+                QMessageBox.critical(self, "Error", f"Failed to plot the equation")
+        else:
+            plotter.plot_equation()
 
     def display_method(self, method):
         self.method = method
