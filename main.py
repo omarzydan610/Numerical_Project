@@ -4,6 +4,10 @@ from GUI.methods_screen import Methods
 from GUI.LU_screen import LU
 from GUI.matrix_screen import Matrix
 from GUI.solve_screen import Solve 
+from GUI.selectequationtype import SelectEquationType
+from GUI.nonlinear_metods import NonLinearMethods
+from GUI.Pisection_falsePosition import Pisection_falsePosition
+
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -19,12 +23,15 @@ class MainWindow(QWidget):
         self.LU_page = LU(self.stacked_widget)
         self.matrix_screen_page = Matrix(self.stacked_widget)
         self.solve_page = Solve(self.stacked_widget)
-
+        self.nonlinear_methods_page = NonLinearMethods(self.stacked_widget)
+        self.PisecFalse_input_page = Pisection_falsePosition(self.stacked_widget)
         # Add pages to QStackedWidget
         self.stacked_widget.addWidget(self.methods_page)
         self.stacked_widget.addWidget(self.LU_page)
         self.stacked_widget.addWidget(self.matrix_screen_page)
         self.stacked_widget.addWidget(self.solve_page)
+        self.stacked_widget.addWidget(self.nonlinear_methods_page)
+        self.stacked_widget.addWidget(self.PisecFalse_input_page)
 
         # Set the layout of the main window
         layout = QVBoxLayout()
