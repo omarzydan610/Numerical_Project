@@ -60,17 +60,17 @@ class Fixed_point:
         return f"{self.root:.{significantFigures}f}"
 
 
-#testcase
+# #testcase
 
-gui_str = "sin(sqrt(x))"   #string come from gui
-x = symbols('x') 
-expr = sympify(gui_str)  
-fun = lambdify(x, expr)  
+# gui_str = "sin(sqrt(x))"   #string come from gui
+# x = symbols('x') 
+# expr = sympify(gui_str)  
+# fun = lambdify(x, expr)  
 
-solver = Fixed_point()
-solver.set_function(fun)
+# solver = Fixed_point()
+# solver.set_function(fun)
 
-root = solver.solve(initial_guess=0.5, max_iteration=100, tolerance=0.0001, significantFigures=6)
+# root = solver.solve(initial_guess=0.5, max_iteration=100, tolerance=0.0001, significantFigures=6)
 
-print("Test Root found:", root)
-print("Steps:\n", solver.steps)
+# print("Test Root found:", root)
+# print("Steps:\n", solver.steps)
