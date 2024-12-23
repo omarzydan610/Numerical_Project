@@ -73,17 +73,17 @@ class Secant:
 
 
 
-#testcase
+# #testcase
 
-gui_str = "x**3 - 6*x**2 + 11*x - 6.1"    #string come from gui
-x = symbols('x') 
-expr = sympify(gui_str)  
-fun = lambdify(x, expr)  
+# gui_str = "x**3 - 6*x**2 + 11*x - 6.1"    #string come from gui
+# x = symbols('x') 
+# expr = sympify(gui_str)  
+# fun = lambdify(x, expr)  
 
-solver = Secant()
-solver.set_function(fun)
+# solver = Secant()
+# solver.set_function(fun)
 
-root = solver.solve(x0=2.5,x1=3.5, max_iteration=3, tolerance=0.0001, significantFigures=5)
+# root = solver.solve(x0=2.5,x1=3.5, max_iteration=3, tolerance=0.0001, significantFigures=5)
 
-print("Test Root found:", root)
-print("Steps:\n", solver.steps)
+# print("Test Root found:", root)
+# print("Steps:\n", solver.steps)
