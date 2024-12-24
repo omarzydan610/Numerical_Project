@@ -167,7 +167,7 @@ class Bracketing_Methods_Input(QWidget):
             ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3),
             ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("-", 3, 3),
             ("0", 4, 0), (".", 4, 1), ("e", 4, 2), ("+", 4, 3),
-            ("(", 5, 0), (")", 5, 1),("delete", 5, 3)  # Clear button
+            ("(", 5, 0), (")", 5, 1), ("clear", 5, 2), ("delete", 5, 3)  # Clear button
         ]
 
         for text, row, col in buttons:
@@ -175,6 +175,8 @@ class Bracketing_Methods_Input(QWidget):
             button.setStyleSheet(""" QPushButton { font-size: 16px; background-color: #439A97; } """)
             if text == "delete":
                 button.clicked.connect(self.delete_last_character)  # Clear last character
+            elif text == "clear":
+                button.clicked.connect(self.clear_equation)
             else:
                 button.clicked.connect(self.append_to_equation)
             self.lay_buttons.addWidget(button, row, col)
@@ -225,6 +227,9 @@ class Bracketing_Methods_Input(QWidget):
             else:
                 new_text = current_text[:-1]  # Remove the last character
             self.equation_input.setText(new_text)
+
+    def clear_equation(self):    
+        self.equation_input.setText("")
 
     def plot_equation(self):
         plotter1 = Plotter(self.equation_input.text())

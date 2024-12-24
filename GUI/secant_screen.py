@@ -3,12 +3,13 @@ from PyQt6.QtCore import Qt
 from pathlib import Path
 from PyQt6.QtGui import QIcon, QPixmap, QDoubleValidator
 from plot.plotter import Plotter
+from logic.solve_bracketing_methods import Bracketing_methods
 from sympy import sympify, SympifyError
-from nonLinearMethods.FixedPoint import Fixed_point
-from nonLinearMethods.newton import Newton
+from nonLinearMethods.Secant import Secant
 
 
-class open_methods_input(QWidget):
+
+class secant_Input(QWidget):
     def __init__(self, stacked_widget):
         super().__init__()
         self.method = ""
@@ -62,22 +63,32 @@ class open_methods_input(QWidget):
 
         # Upper and lower input fields for "x" in the same line
         self.lay_x = QHBoxLayout()
-        self.x_0_label = QLabel("Xo :", self)
-        self.x_0_label.setStyleSheet(""" QLabel { font-size: 16px; margin-bottom: 5px; color:black; } """)
+        self.x_upper_label = QLabel("x0:", self)
+        self.x_upper_label.setStyleSheet(""" QLabel { font-size: 16px; margin-bottom: 5px; color:black; } """)
         
-        self.x_0_input = QLineEdit(self)
-        self.x_0_input.setText("0")  # Set initial value for upper x
-        self.x_0_input.setStyleSheet(""" QLineEdit { font-size: 16px; background-color:white; color:black; } """)
+        self.x_upper_input = QLineEdit(self)
+        self.x_upper_input.setText("0")  # Set initial value for upper x
+        self.x_upper_input.setStyleSheet(""" QLineEdit { font-size: 16px; background-color:white; color:black; } """)
         
         # Set a validator to allow any numeric input (including decimals)
         validator = QDoubleValidator(self)
         validator.setBottom(-float('inf'))  # Allow negative numbers
         validator.setTop(float('inf'))  # Allow large numbers
-        self.x_0_input.setValidator(validator)
+        self.x_upper_input.setValidator(validator)
+        
+        self.x_lower_label = QLabel("x1:", self)
+        self.x_lower_label.setStyleSheet(""" QLabel { font-size: 16px; margin-bottom: 5px; color:black; } """)
+        
+        self.x_lower_input = QLineEdit(self)
+        self.x_lower_input.setText("0")  # Set initial value for lower x
+        self.x_lower_input.setStyleSheet(""" QLineEdit { font-size: 16px; background-color:white; color:black; } """)
+        
+        self.x_lower_input.setValidator(validator)  # Using the same validator for lower x
 
-
-        self.lay_x.addWidget(self.x_0_label)
-        self.lay_x.addWidget(self.x_0_input)
+        self.lay_x.addWidget(self.x_upper_label)
+        self.lay_x.addWidget(self.x_upper_input)
+        self.lay_x.addWidget(self.x_lower_label)
+        self.lay_x.addWidget(self.x_lower_input)
 
         # Layout for significant figures input (on a separate line)
         self.lay_sfigures = QHBoxLayout()
@@ -157,14 +168,14 @@ class open_methods_input(QWidget):
             ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3),
             ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("-", 3, 3),
             ("0", 4, 0), (".", 4, 1), ("e", 4, 2), ("+", 4, 3),
-            ("(", 5, 0), (")", 5, 1), ("clear", 5, 2),("delete", 5, 3)  # Clear button
+            ("(", 5, 0), (")", 5, 1), ("clear", 5, 2), ("delete", 5, 3)  # Clear button
         ]
 
         for text, row, col in buttons:
             button = QPushButton(text, self)
             button.setStyleSheet(""" QPushButton { font-size: 16px; background-color: #439A97; } """)
             if text == "delete":
-                button.clicked.connect(self.delete_last_character) 
+                button.clicked.connect(self.delete_last_character)  # Clear last character
             elif text == "clear":
                 button.clicked.connect(self.clear_equation)
             else:
@@ -211,24 +222,23 @@ class open_methods_input(QWidget):
     def delete_last_character(self):
         current_text = self.equation_input.text()
         if current_text:
+            # Check if the last characters form "sin(" or "cos("
             if current_text.endswith("sin(") or current_text.endswith("cos("):
-                new_text = current_text[:-4] 
+                new_text = current_text[:-4]  # Remove the entire "sin(" or "cos("
             else:
-                new_text = current_text[:-1] 
+                new_text = current_text[:-1]  # Remove the last character
             self.equation_input.setText(new_text)
-    
-    def clear_equation(self):
+
+    def clear_equation(self):    
         self.equation_input.setText("")
 
     def plot_equation(self):
-        if is_valid_equation(self.equation_input.text()):
-            plotter = Plotter(self.equation_input.text())
-            if self.method == "Fixed point" :
-                plotter.plot_g_x("x")
-            else:
-                plotter.plot_equation()
-        else:
-            QMessageBox.critical(self, "Error", f"equation form is in valid")
+        plotter1 = Plotter(self.equation_input.text())
+
+        try:
+            plotter1.plot_equation()
+        except :
+            QMessageBox.critical(self, "Error", f"Failed to plot the equation")
 
     def display_method(self, method):
         self.method = method
@@ -238,52 +248,25 @@ class open_methods_input(QWidget):
         self.stacked_widget.setCurrentIndex(5)
 
     def solve(self):
-        # "Fixed point", "Original Newton-Raphson", "Modified Newton-Raphson", "Secant Method"
-        x_0 = float(self.x_0_input.text())
+        # Retrieve the inputs from the UI
+        x_lower = float(self.x_lower_input.text())
+        x_upper = float(self.x_upper_input.text())
         significant_figures = self.sfigures_input.value()
         relative_error = float(self.relativeError_input.text())/100
         max_iterations = self.iterations_input.value()
         equation = self.equation_input.text()
+
+
+        solver = Secant()
+        solver.set_function(equation)
+        root = solver.solve(x0=x_upper, x1=x_lower, max_iteration=max_iterations, tolerance=relative_error, significantFigures=significant_figures)
         method = self.method
-        if is_valid_equation(self.equation_input.text()):
-            if self.method == "Fixed point":
-                fun = equation
-                solver = Fixed_point()
-                solver.set_function(fun)
-                root = solver.solve(initial_guess=x_0, max_iteration=max_iterations, tolerance=relative_error, significantFigures=significant_figures)
-                execution_time = solver.getExecutionTime()
-                steps = solver.getSteps()
-                iterations = solver.getIterations()
-                self.stacked_widget.setCurrentIndex(8)
-                self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations)
-            elif self.method == "Original Newton-Raphson":
-                solver = Newton()
-                try:
-                    solver.original(equation, x_0, relative_error, max_iterations, significant_figures)
-                except ValueError:
-                    QMessageBox.critical(self, "Error", f"{ValueError}.")
-                else:
-                    execution_time = solver.getExecutionTime()*1000
-                    steps = solver.getSteps()
-                    iterations = solver.getIterations()
-                    root = solver.getSolution()
-                    self.stacked_widget.setCurrentIndex(8)
-                    self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations)
-            elif self.method == "Modified Newton-Raphson":
-                solver = Newton()
-                try:
-                    solver.modified(equation, x_0, relative_error, max_iterations, significant_figures)
-                except ValueError:
-                    QMessageBox.critical(self, "Error", f"{ValueError}.")
-                else:
-                    execution_time = solver.getExecutionTime()*1000
-                    steps = solver.getSteps()
-                    iterations = solver.getIterations()
-                    root = solver.getSolution()
-                    self.stacked_widget.setCurrentIndex(8)
-                    self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations)
-        else:
-            QMessageBox.critical(self, "Error", f"equation form is in valid")
+        execution_time = solver.getExecutionTime()
+        steps = solver.getSteps()
+        iterations = solver.getIterations()
+        self.stacked_widget.setCurrentIndex(8)
+        self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations)
+        
 
 
 def is_valid_equation(equation: str) -> bool:
@@ -292,5 +275,3 @@ def is_valid_equation(equation: str) -> bool:
         return True
     except (SympifyError, ValueError):
         return False
-
-

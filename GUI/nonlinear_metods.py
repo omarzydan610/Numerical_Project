@@ -77,6 +77,9 @@ class NonLinearMethods(QWidget):
         if method == "Bisection" or method == "False-Position":
             self.stacked_widget.setCurrentIndex(6)
             self.stacked_widget.currentWidget().display_method(method)
+        elif method == "Secant Method":
+            self.stacked_widget.setCurrentIndex(9)
+            self.stacked_widget.currentWidget().display_method(method)
         else: 
             self.stacked_widget.setCurrentIndex(7)
             self.stacked_widget.currentWidget().display_method(method)

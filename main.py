@@ -8,6 +8,7 @@ from GUI.nonlinear_metods import NonLinearMethods
 from GUI.bracketing_methods_input import Bracketing_Methods_Input
 from GUI.Open_methods_input import open_methods_input
 from GUI.nonLinearSolveScreen import NonlinearSolveScreen
+from GUI.secant_screen import secant_Input  
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -28,6 +29,7 @@ class MainWindow(QWidget):
         self.bracketing_methods_input_page = Bracketing_Methods_Input(self.stacked_widget)
         self.open_method_input_page = open_methods_input(self.stacked_widget)
         self.nonLinear_Solve_Screen  = NonlinearSolveScreen(self.stacked_widget)
+        self.secant_Input = secant_Input(self.stacked_widget)
         # Add pages to QStackedWidget
         self.stacked_widget.addWidget(self.selct_eqyation_type_page)        #0
         self.stacked_widget.addWidget(self.methods_page)                    #1
@@ -38,6 +40,7 @@ class MainWindow(QWidget):
         self.stacked_widget.addWidget(self.bracketing_methods_input_page)   #6
         self.stacked_widget.addWidget(self.open_method_input_page)          #7
         self.stacked_widget.addWidget(self.nonLinear_Solve_Screen)          #8
+        self.stacked_widget.addWidget(self.secant_Input)                    #9
 
         # Set the layout of the main window
         layout = QVBoxLayout()

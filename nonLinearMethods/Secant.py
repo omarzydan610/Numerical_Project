@@ -12,7 +12,11 @@ class Secant:
         self.fx = None
     
     def set_function(self, fx): 
-        self.fx = fx
+        gui_str = fx    #string come from gui
+        x = symbols('x') 
+        expr = sympify(gui_str)  
+        fun = lambdify(x, expr)  
+        self.fx = fun
 
     def getIterations(self):
         return self.iteration
@@ -23,6 +27,9 @@ class Secant:
     def getTolerance(self):
         return self.tolerance 
     
+    def getSteps(self):
+        return self.steps
+
     def solve(self, x0, x1, max_iteration, tolerance, significantFigures):
         startTime = time.perf_counter_ns()
         for i in range(1, max_iteration + 1):
@@ -73,12 +80,10 @@ class Secant:
 
 
 
-# #testcase
+# # #testcase
 
-# gui_str = "sin(x) - 6*x**2 + 11*x - 6.1"    #string come from gui
-# x = symbols('x') 
-# expr = sympify(gui_str)  
-# fun = lambdify(x, expr)  
+# fun = "sin(x) - 6*x**2 + 11*x - 6.1"    #string come from gui
+
 
 # solver = Secant()
 # solver.set_function(fun)
