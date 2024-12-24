@@ -19,9 +19,16 @@ class Fixed_point:
 
     def getTolerance(self):
         return self.tolerance
+    
+    def getSteps(self):
+        return self.steps
 
     def set_function(self, gx):
-        self.gx = gx
+        gui_str = gx   #string come from gui
+        x = symbols('x') 
+        expr = sympify(gui_str)  
+        fun = lambdify(x, expr) 
+        self.gx = fun
 
     
     def solve(self, initial_guess, max_iteration, tolerance, significantFigures):
@@ -60,17 +67,3 @@ class Fixed_point:
         return f"{self.root:.{significantFigures}f}"
 
 
-# #testcase
-
-# gui_str = "sin(sqrt(x))"   #string come from gui
-# x = symbols('x') 
-# expr = sympify(gui_str)  
-# fun = lambdify(x, expr)  
-
-# solver = Fixed_point()
-# solver.set_function(fun)
-
-# root = solver.solve(initial_guess=0.5, max_iteration=100, tolerance=0.0001, significantFigures=6)
-
-# print("Test Root found:", root)
-# print("Steps:\n", solver.steps)

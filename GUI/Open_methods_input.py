@@ -4,6 +4,7 @@ from pathlib import Path
 from PyQt6.QtGui import QIcon, QPixmap, QDoubleValidator
 from plot.plotter import Plotter
 from sympy import sympify, SympifyError
+from nonLinearMethods.FixedPoint import Fixed_point
 
 
 
@@ -216,14 +217,14 @@ class open_methods_input(QWidget):
             self.equation_input.setText(new_text)
 
     def plot_equation(self):
-        plotter = Plotter(self.equation_input.text())
-        if self.method == "Fixed point" :
-            try:
+        if is_valid_equation(self.equation_input.text()):
+            plotter = Plotter(self.equation_input.text())
+            if self.method == "Fixed point" :
                 plotter.plot_g_x("x")
-            except :
-                QMessageBox.critical(self, "Error", f"Failed to plot the equation")
+            else:
+                plotter.plot_equation()
         else:
-            plotter.plot_equation()
+            QMessageBox.critical(self, "Error", f"equation form is in valid")
 
     def display_method(self, method):
         self.method = method
@@ -233,8 +234,26 @@ class open_methods_input(QWidget):
         self.stacked_widget.setCurrentIndex(5)
 
     def solve(self):
-        print("solve")
-        pass
+        # "Fixed point", "Original Newton-Raphson", "Modified Newton-Raphson", "Secant Method"
+        x_0 = float(self.x_0_input.text())
+        significant_figures = self.sfigures_input.value()
+        relative_error = float(self.relativeError_input.text())/100
+        max_iterations = self.iterations_input.value()
+        equation = self.equation_input.text()
+        method = self.method
+        if is_valid_equation(self.equation_input.text()):
+            if self.method == "Fixed point":
+                fun = equation
+                solver = Fixed_point()
+                solver.set_function(fun)
+                root = solver.solve(initial_guess=x_0, max_iteration=max_iterations, tolerance=relative_error, significantFigures=significant_figures)
+                self.stacked_widget.setCurrentIndex(8)
+                execution_time = solver.getExecutionTime()
+                steps = solver.getSteps()
+                iterations = solver.getIterations()
+                self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations)
+        else:
+            QMessageBox.critical(self, "Error", f"equation form is in valid")
 
 
 def is_valid_equation(equation: str) -> bool:

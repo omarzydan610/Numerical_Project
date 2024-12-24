@@ -250,7 +250,7 @@ class Bracketing_Methods_Input(QWidget):
         max_iterations = self.iterations_input.value()
         equation = self.equation_input.text()
 
-    # Initialize the solver with the necessary parameters
+
         solver = Bracketing_methods(
             x_lower=x_lower,
             x_upper=x_upper,
