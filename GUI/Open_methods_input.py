@@ -87,7 +87,7 @@ class open_methods_input(QWidget):
         self.sfigures_input = QSpinBox(self)
         self.sfigures_input.setMinimum(1)
         self.sfigures_input.setMaximum(15)
-        self.sfigures_input.setValue(1)
+        self.sfigures_input.setValue(3)
         self.sfigures_input.setStyleSheet(""" QSpinBox { font-size: 16px; background-color:white; color:black; } """)
         
         self.lay_sfigures.addWidget(self.sfigures_label)
@@ -100,7 +100,7 @@ class open_methods_input(QWidget):
         self.relativeError_label.setStyleSheet(""" QLabel { font-size: 16px; margin-bottom: 5px; color:black; } """)
         
         self.relativeError_input = QLineEdit(self)
-        self.relativeError_input.setText("1")  # Set initial value
+        self.relativeError_input.setText("0.001")  # Set initial value
         self.relativeError_input.setStyleSheet(""" QLineEdit { font-size: 16px; background-color:white; color:black; } """)
         
         # Set a validator to allow any numeric input (including decimals)
@@ -121,7 +121,7 @@ class open_methods_input(QWidget):
         self.iterations_input = QSpinBox(self)
         self.iterations_input.setMinimum(1)
         self.iterations_input.setMaximum(1000)
-        self.iterations_input.setValue(10)  # Default value for iterations
+        self.iterations_input.setValue(50)  # Default value for iterations
         self.iterations_input.setStyleSheet(""" QSpinBox { font-size: 16px; background-color:white; color:black; } """)
         
         self.lay_iterations.addWidget(self.iterations_label)

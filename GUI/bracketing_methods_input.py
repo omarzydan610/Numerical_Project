@@ -97,7 +97,7 @@ class Bracketing_Methods_Input(QWidget):
         self.sfigures_input = QSpinBox(self)
         self.sfigures_input.setMinimum(1)
         self.sfigures_input.setMaximum(15)
-        self.sfigures_input.setValue(1)
+        self.sfigures_input.setValue(3)
         self.sfigures_input.setStyleSheet(""" QSpinBox { font-size: 16px; background-color:white; color:black; } """)
         
         self.lay_sfigures.addWidget(self.sfigures_label)
@@ -110,7 +110,7 @@ class Bracketing_Methods_Input(QWidget):
         self.relativeError_label.setStyleSheet(""" QLabel { font-size: 16px; margin-bottom: 5px; color:black; } """)
         
         self.relativeError_input = QLineEdit(self)
-        self.relativeError_input.setText("1")  # Set initial value
+        self.relativeError_input.setText("0.001")  # Set initial value
         self.relativeError_input.setStyleSheet(""" QLineEdit { font-size: 16px; background-color:white; color:black; } """)
         
         # Set a validator to allow any numeric input (including decimals)
@@ -131,7 +131,7 @@ class Bracketing_Methods_Input(QWidget):
         self.iterations_input = QSpinBox(self)
         self.iterations_input.setMinimum(1)
         self.iterations_input.setMaximum(1000)
-        self.iterations_input.setValue(10)  # Default value for iterations
+        self.iterations_input.setValue(50)  # Default value for iterations
         self.iterations_input.setStyleSheet(""" QSpinBox { font-size: 16px; background-color:white; color:black; } """)
         
         self.lay_iterations.addWidget(self.iterations_label)
@@ -232,8 +232,10 @@ class Bracketing_Methods_Input(QWidget):
         self.equation_input.setText("")
 
     def plot_equation(self):
+        if not is_valid_equation(self.equation_input.text()):
+            QMessageBox.critical(self, "Error", "Invalid equation")
+            return
         plotter1 = Plotter(self.equation_input.text())
-
         try:
             plotter1.plot_equation()
         except :
@@ -247,7 +249,7 @@ class Bracketing_Methods_Input(QWidget):
         self.stacked_widget.setCurrentIndex(5)
 
     def solve(self):
-        # Retrieve the inputs from the UI
+        
         x_lower = float(self.x_lower_input.text())
         x_upper = float(self.x_upper_input.text())
         significant_figures = self.sfigures_input.value()
@@ -255,6 +257,9 @@ class Bracketing_Methods_Input(QWidget):
         max_iterations = self.iterations_input.value()
         equation = self.equation_input.text()
 
+        if not is_valid_equation(equation): 
+            QMessageBox.critical(self, "Error", "Invalid equation")
+            return
 
         solver = Bracketing_methods(
             x_lower=x_lower,
