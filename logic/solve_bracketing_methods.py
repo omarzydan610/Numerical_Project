@@ -3,7 +3,7 @@ import time
 
 class Bracketing_methods:
     def __init__(self, equation, x_upper, x_lower, relativeError, significantFigures, maxNumOfIterations):
-        self.equation = equation
+        self.equation = equation.replace("^", "**")
         self.x_upper = x_upper
         self.x_lower = x_lower
         self.relativeError = relativeError
@@ -12,22 +12,32 @@ class Bracketing_methods:
         self.steps = []
         self.execution_time = None
 
+    def get_equation(self):
+        return self.equation
+
+    def get_steps(self):
+        return self.steps
+
+    def get_execution_time(self):
+        return self.execution_time
+    
+    
+
     def f(self, x):
-        return eval(self.equation)
+        allowed_names = {k: v for k, v in math.__dict__.items() if not k.startswith("__")}
+        allowed_names['x'] = x
+        return eval(self.equation, {"__builtins__": {}}, allowed_names)
 
     def SFCalc(self, number, significantFigures):
         if number == 0:
             return 0
         order_of_magnitude = math.floor(math.log10(abs(number)))
-
         scale = 10 ** (significantFigures - 1 - order_of_magnitude)
         scaled_number = math.trunc(number * scale)
-
         result = scaled_number / scale
         return result
 
     def bisection(self):
-        print("ok")
         x_lower = self.x_lower
         x_upper = self.x_upper
         max_iter = self.maxNumOfIterations
@@ -84,6 +94,8 @@ class Bracketing_methods:
             xr = x_upper - (f_upper * (x_lower - x_upper) / (f_lower - f_upper))
 
             if xr_old is not None:
+                if xr == 0:
+                    break
                 ea = abs((xr - xr_old) / xr) * 100
             else:
                 ea = None
@@ -108,11 +120,33 @@ class Bracketing_methods:
         self.execution_time = end_time - start_time
         return xr
 
-    def get_equation(self):
-        return self.equation
 
-    def get_steps(self):
-        return self.steps
+# Example usage of the Bracketing_methods class
 
-    def get_execution_time(self):
-        return self.execution_time
+# Define the equation as a string
+equation = "sin(x) - e^x + e^(-x)"
+
+# Define the parameters
+x_upper = 2
+x_lower = 0
+relativeError = 0.0001  # 1%
+significantFigures = 5
+maxNumOfIterations = 100
+
+# Create an instance of Bracketing_methods
+bracketing = Bracketing_methods(equation, x_upper, x_lower, relativeError, significantFigures, maxNumOfIterations)
+
+# Perform the bisection method
+root_bisection = bracketing.bisection()
+print("Bisection Method:")
+print(f"Root: {root_bisection}")
+print(f"Steps: {bracketing.get_steps()}")
+print(f"Execution Time: {bracketing.get_execution_time()} seconds")
+
+# Perform the false position method
+bracketing.steps = []  # Clear previous steps
+root_false_position = bracketing.false_position()
+print("\nFalse Position Method:")
+print(f"Root: {root_false_position}")
+print(f"Steps: {bracketing.get_steps()}")
+print(f"Execution Time: {bracketing.get_execution_time()} seconds")

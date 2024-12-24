@@ -78,8 +78,3 @@ class Plotter:
         plt.grid(True)
         plt.legend()
         plt.show()
-
-
-x = Plotter("e^x + x^2 - x - 4")
-x.plot_equation()
-x.plot_g_x("x")

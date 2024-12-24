@@ -243,7 +243,7 @@ class Bracketing_Methods_Input(QWidget):
         x_lower = float(self.x_lower_input.text())
         x_upper = float(self.x_upper_input.text())
         significant_figures = self.sfigures_input.value()
-        relative_error = float(self.relativeError_input.text())
+        relative_error = float(self.relativeError_input.text())/100
         max_iterations = self.iterations_input.value()
         equation = self.equation_input.text()
 
@@ -251,10 +251,18 @@ class Bracketing_Methods_Input(QWidget):
         solver = Bracketing_methods(
             x_lower=x_lower,
             x_upper=x_upper,
-            significant_figures=significant_figures,
-            relative_error=relative_error,
-            max_iterations=max_iterations,
+            significantFigures=significant_figures,
+            relativeError=relative_error,
+            maxNumOfIterations=max_iterations,
             equation=equation
+        )
+        print(
+            x_lower ,
+        x_upper ,
+        significant_figures ,
+        relative_error ,
+        max_iterations ,
+        equation 
         )
 
         result = None  # To store the result of the solving process
