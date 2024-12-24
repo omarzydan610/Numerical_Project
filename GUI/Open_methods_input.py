@@ -3,6 +3,9 @@ from PyQt6.QtCore import Qt
 from pathlib import Path
 from PyQt6.QtGui import QIcon, QPixmap, QDoubleValidator
 from plot.plotter import Plotter
+from sympy import sympify, SympifyError
+
+
 
 class open_methods_input(QWidget):
     def __init__(self, stacked_widget):
@@ -234,6 +237,11 @@ class open_methods_input(QWidget):
         pass
 
 
-
+def is_valid_equation(equation: str) -> bool:
+    try:
+        sympify(equation)
+        return True
+    except (SympifyError, ValueError):
+        return False
 
 

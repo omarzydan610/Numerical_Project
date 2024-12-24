@@ -9,8 +9,10 @@ class Bracketing_methods:
         self.relativeError = relativeError
         self.significantFigures = significantFigures
         self.maxNumOfIterations = maxNumOfIterations
-        self.steps = []
+        self.steps = ""
         self.execution_time = None
+        self.root = 0
+        self.Iterations = 0
 
     def get_equation(self):
         return self.equation
@@ -21,7 +23,11 @@ class Bracketing_methods:
     def get_execution_time(self):
         return self.execution_time
     
+    def get_root(self):
+        return self.root
     
+    def get_iterations(self):
+        return self.Iterations 
 
     def f(self, x):
         allowed_names = {k: v for k, v in math.__dict__.items() if not k.startswith("__")}
@@ -55,7 +61,7 @@ class Bracketing_methods:
             else:
                 ea = None
 
-            self.steps.append(f"Iteration {step + 1}: x_lower = {x_lower}, x_upper = {x_upper}, xr = {xr}, ea = {ea}")
+            self.steps += f"Iteration {step + 1}: x_lower = {x_lower}, x_upper = {x_upper}, xr = {xr}, ea = {ea}\n"
 
             if ea is not None and ea < rel_error:
                 break
@@ -75,7 +81,8 @@ class Bracketing_methods:
 
         xr = self.SFCalc(xr, sig_fig)
         self.execution_time = end_time - start_time
-        return xr
+        self.root = xr
+        self.Iterations = step
 
     def false_position(self):
         x_lower = self.x_lower
@@ -100,7 +107,7 @@ class Bracketing_methods:
             else:
                 ea = None
 
-            self.steps.append(f"Iteration {step + 1}: x_lower = {x_lower}, x_upper = {x_upper}, xr = {xr}, ea = {ea}")
+            self.steps += f"Iteration {step + 1}: x_lower = {x_lower}, x_upper = {x_upper}, xr = {xr}, ea = {ea}\n"
 
             if ea is not None and ea < rel_error:
                 break
@@ -118,35 +125,36 @@ class Bracketing_methods:
 
         xr = self.SFCalc(xr, sig_fig)
         self.execution_time = end_time - start_time
-        return xr
+        self.Iterations = step
+        self.root = xr
 
 
-# Example usage of the Bracketing_methods class
+# # Example usage of the Bracketing_methods class
 
-# Define the equation as a string
-equation = "sin(x) - e^x + e^(-x)"
+# # Define the equation as a string
+# equation = "sin(x) - e^x + e^(-x)"
 
-# Define the parameters
-x_upper = 2
-x_lower = 0
-relativeError = 0.0001  # 1%
-significantFigures = 5
-maxNumOfIterations = 100
+# # Define the parameters
+# x_upper = 2
+# x_lower = 0
+# relativeError = 0.0001  # 1%
+# significantFigures = 5
+# maxNumOfIterations = 100
 
-# Create an instance of Bracketing_methods
-bracketing = Bracketing_methods(equation, x_upper, x_lower, relativeError, significantFigures, maxNumOfIterations)
+# # Create an instance of Bracketing_methods
+# bracketing = Bracketing_methods(equation, x_upper, x_lower, relativeError, significantFigures, maxNumOfIterations)
 
-# Perform the bisection method
-root_bisection = bracketing.bisection()
-print("Bisection Method:")
-print(f"Root: {root_bisection}")
-print(f"Steps: {bracketing.get_steps()}")
-print(f"Execution Time: {bracketing.get_execution_time()} seconds")
+# # Perform the bisection method
+# root_bisection = bracketing.bisection()
+# print("Bisection Method:")
+# print(f"Root: {root_bisection}")
+# print(f"Steps: {bracketing.get_steps()}")
+# print(f"Execution Time: {bracketing.get_execution_time()} seconds")
 
-# Perform the false position method
-bracketing.steps = []  # Clear previous steps
-root_false_position = bracketing.false_position()
-print("\nFalse Position Method:")
-print(f"Root: {root_false_position}")
-print(f"Steps: {bracketing.get_steps()}")
-print(f"Execution Time: {bracketing.get_execution_time()} seconds")
+# # Perform the false position method
+# bracketing.steps = []  # Clear previous steps
+# root_false_position = bracketing.false_position()
+# print("\nFalse Position Method:")
+# print(f"Root: {root_false_position}")
+# print(f"Steps: {bracketing.get_steps()}")
+# print(f"Execution Time: {bracketing.get_execution_time()} seconds")
