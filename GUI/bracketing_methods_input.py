@@ -284,8 +284,9 @@ class Bracketing_Methods_Input(QWidget):
             steps = solver.getSteps()
             iterations = solver.getIterations()
             sf = solver.getcorrectSF()
+            re = solver.getError()
             self.stacked_widget.setCurrentIndex(8)
-            self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf)
+            self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf, re)
             # method, root, execution_time, steps, iterations
         elif self.method == "False-Position":
             solver = FalsePosition()
@@ -300,8 +301,9 @@ class Bracketing_Methods_Input(QWidget):
             steps = solver.getSteps()
             iterations = solver.getIterations()
             sf = solver.getcorrectSF()
+            re = solver.getError()
             self.stacked_widget.setCurrentIndex(8)
-            self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf)
+            self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf, re)
 
 
 def is_valid_equation(equation: str) -> bool:

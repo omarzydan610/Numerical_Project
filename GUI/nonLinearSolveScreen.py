@@ -94,6 +94,24 @@ class NonlinearSolveScreen(QWidget):
         self.sig_fig_field.setFixedWidth(text_width)
         
         container_layout.addLayout(sig_fig_layout)
+
+        # Relative Error Layout
+        relative_error_layout = QHBoxLayout()
+        self.relative_error_label = QLabel("Relative Error:")
+        self.relative_error_label.setStyleSheet("color:black;")
+        self.relative_error_field = QLineEdit()
+        self.relative_error_field.setReadOnly(True)
+        self.relative_error_field.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.relative_error_field.setStyleSheet("color:black;")
+        
+        relative_error_layout.addWidget(self.relative_error_label)
+        relative_error_layout.addWidget(self.relative_error_field)
+        
+        font_metrics = QFontMetrics(self.relative_error_field.font())
+        text_width = font_metrics.horizontalAdvance(self.relative_error_field.text()) + 30  
+        self.relative_error_field.setFixedWidth(text_width)
+        
+        container_layout.addLayout(relative_error_layout)
         
         container_widget = QWidget()
         container_widget.setLayout(container_layout)
@@ -154,7 +172,7 @@ class NonlinearSolveScreen(QWidget):
             }
         """)
 
-    def set_solution(self, method, root, execution_time, steps, iterations, significant_figures):
+    def set_solution(self, method, root, execution_time, steps, iterations, significant_figures, relative_error):
         self.steps = steps
         
         if isinstance(root, str) and "No Solution" in root:
@@ -171,6 +189,8 @@ class NonlinearSolveScreen(QWidget):
             self.iterations_field.setVisible(False)
             self.sig_fig_label.setVisible(False)
             self.sig_fig_field.setVisible(False)
+            self.relative_error_label.setVisible(False)
+            self.relative_error_field.setVisible(False)
             return
         else:
             self.error_message.setVisible(False)
@@ -185,6 +205,8 @@ class NonlinearSolveScreen(QWidget):
             self.iterations_field.setVisible(True)
             self.sig_fig_label.setVisible(True)
             self.sig_fig_field.setVisible(True)
+            self.relative_error_label.setVisible(True)
+            self.relative_error_field.setVisible(True)
 
         self.method_label.setText(f"Selected method: {method}")
         self.root_field.setText(f"{root}")
@@ -203,11 +225,15 @@ class NonlinearSolveScreen(QWidget):
         text_width = font_metrics.horizontalAdvance(f"{iterations}") + 30
         self.iterations_field.setFixedWidth(text_width)
 
-        # Set Significant Figures
         self.sig_fig_field.setText(f"{significant_figures}")
         font_metrics = QFontMetrics(self.sig_fig_field.font())
         text_width = font_metrics.horizontalAdvance(f"{significant_figures}") + 30
         self.sig_fig_field.setFixedWidth(text_width)
+
+        self.relative_error_field.setText(f"{relative_error:.6e}")
+        font_metrics = QFontMetrics(self.relative_error_field.font())
+        text_width = font_metrics.horizontalAdvance(f"{relative_error:.6e}") + 30
+        self.relative_error_field.setFixedWidth(text_width)
 
     def home(self):
         self.stacked_widget.setCurrentIndex(0)
@@ -215,3 +241,4 @@ class NonlinearSolveScreen(QWidget):
     def show_steps(self):
         step_dialog = StepsDisplay(self.steps)
         step_dialog.exec()
+

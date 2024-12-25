@@ -262,8 +262,9 @@ class open_methods_input(QWidget):
                 steps = solver.getSteps()
                 iterations = solver.getIterations()
                 sf = solver.getCorrectSF()
+                re = solver.getTolerance()
                 self.stacked_widget.setCurrentIndex(8)
-                self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, significant_figures=sf)
+                self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf, re)
             elif self.method == "Original Newton-Raphson":
                 solver = Newton()
                 try:
@@ -277,8 +278,9 @@ class open_methods_input(QWidget):
                     iterations = solver.getIterations()
                     root = solver.getSolution()
                     sf = solver.getCorrectSF()
+                    re = solver.getError()
                     self.stacked_widget.setCurrentIndex(8)
-                    self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf)
+                    self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf, re)
             elif self.method == "Modified Newton-Raphson":
                 solver = Newton()
                 try:
@@ -291,8 +293,9 @@ class open_methods_input(QWidget):
                     iterations = solver.getIterations()
                     root = solver.getSolution()
                     sf = solver.getCorrectSF()
+                    re = solver.getError()
                     self.stacked_widget.setCurrentIndex(8)
-                    self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf)
+                    self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf, re)
         else:
             QMessageBox.critical(self, "Error", f"equation form is in valid")
 

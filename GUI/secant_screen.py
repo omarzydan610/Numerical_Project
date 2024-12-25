@@ -276,8 +276,9 @@ class secant_Input(QWidget):
             steps = solver.getSteps()
             iterations = solver.getIterations()
             sf = solver.getCorrectSF()
+            re = solver.getTolerance()
             self.stacked_widget.setCurrentIndex(8)
-            self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf)
+            self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations, sf, re)
         
 
 
