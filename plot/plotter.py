@@ -33,31 +33,34 @@ class Plotter:
         return (-5, 5)
 
     def plot_equation(self):
-        x = sp.Symbol('x')
-        # Parse the equation with proper handling for e
-        expr = sp.sympify(self.equation.replace('e', 'E'))
-        
-        # Create numerical function
-        f = sp.lambdify(x, expr, modules=[{'E': np.e, 'exp': np.exp}, 'numpy'])
-        
-        # Generate x values
-        x_vals = np.linspace(self.x_range[0], self.x_range[1], 400)
-        
-        # Safely evaluate y values
-        y_vals = f(x_vals)
-        y_vals = np.where(np.isfinite(y_vals), y_vals, np.nan)  # Handle infinities
-        
-        # Plot the function
-        plt.figure(figsize=(8, 6))
-        plt.plot(x_vals, y_vals, label=self.equation, color='b')
-        plt.title(f"Plot of the equation: {self.equation}")
-        plt.xlabel('x')
-        plt.ylabel('f(x)')
-        plt.axhline(0, color='black', linewidth=0.5)
-        plt.axvline(0, color='black', linewidth=0.5)
-        plt.grid(True)
-        plt.legend()
-        plt.show()
+        try:
+            x = sp.Symbol('x')
+            # Parse the equation with proper handling for e
+            expr = sp.sympify(self.equation)
+            
+            # Create numerical function
+            f = sp.lambdify(x, expr, modules=[{'E': np.e, 'exp': np.exp}, 'numpy'])
+            
+            # Generate x values
+            x_vals = np.linspace(self.x_range[0], self.x_range[1], 400)
+            
+            # Safely evaluate y values
+            y_vals = f(x_vals)
+            y_vals = np.where(np.isfinite(y_vals), y_vals, np.nan)  # Handle infinities
+            
+            # Plot the function
+            plt.figure(figsize=(8, 6))
+            plt.plot(x_vals, y_vals, label=self.equation, color='b')
+            plt.title(f"Plot of the equation: {self.equation}")
+            plt.xlabel('x')
+            plt.ylabel('f(x)')
+            plt.axhline(0, color='black', linewidth=0.5)
+            plt.axvline(0, color='black', linewidth=0.5)
+            plt.grid(True)
+            plt.legend()
+            plt.show()
+        except Exception as e:
+            print(f"Error plotting equations: {str(e)}")
 
     def plot_g_x(self, equation):
         x = sp.Symbol('x')
