@@ -252,8 +252,11 @@ class open_methods_input(QWidget):
                 solver.set_function(fun)
                 try:
                     root = solver.solve(initial_guess=x_0, max_iteration=max_iterations, tolerance=relative_error, significantFigures=significant_figures)
-                except ValueError:
-                    QMessageBox.critical(self, "Error", f"{str(ValueError)}")
+                except ValueError as e:
+                    QMessageBox.critical(self, "Error", f"{str(e)}")
+                    return
+                except OverflowError :
+                    QMessageBox.critical(self, "Error", f"Over flow error")
                     return
                 execution_time = solver.getExecutionTime()
                 steps = solver.getSteps()
@@ -265,8 +268,8 @@ class open_methods_input(QWidget):
                 solver = Newton()
                 try:
                     solver.original(equation, x_0, relative_error, max_iterations, significant_figures)
-                except ValueError:
-                    QMessageBox.critical(self, "Error", f"{str(ValueError)}.")
+                except ValueError as e:
+                    QMessageBox.critical(self, "Error", f"{str(e)}.")
                     return
                 else:
                     execution_time = solver.getExecutionTime()*1000
@@ -280,8 +283,8 @@ class open_methods_input(QWidget):
                 solver = Newton()
                 try:
                     solver.modified(equation, x_0, relative_error, max_iterations, significant_figures)
-                except ValueError:
-                    QMessageBox.critical(self, "Error", f"{str(ValueError)}.")
+                except ValueError as e:
+                    QMessageBox.critical(self, "Error", f"{str(e)}.")
                 else:
                     execution_time = solver.getExecutionTime()*1000
                     steps = solver.getSteps()
