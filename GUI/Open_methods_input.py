@@ -250,7 +250,11 @@ class open_methods_input(QWidget):
                 fun = equation
                 solver = Fixed_point()
                 solver.set_function(fun)
-                root = solver.solve(initial_guess=x_0, max_iteration=max_iterations, tolerance=relative_error, significantFigures=significant_figures)
+                try:
+                    root = solver.solve(initial_guess=x_0, max_iteration=max_iterations, tolerance=relative_error, significantFigures=significant_figures)
+                except ValueError:
+                    QMessageBox.critical(self, "Error", f"{ValueError.args[0]}")
+                    return
                 execution_time = solver.getExecutionTime()
                 steps = solver.getSteps()
                 iterations = solver.getIterations()
@@ -261,7 +265,8 @@ class open_methods_input(QWidget):
                 try:
                     solver.original(equation, x_0, relative_error, max_iterations, significant_figures)
                 except ValueError:
-                    QMessageBox.critical(self, "Error", f"{ValueError}.")
+                    QMessageBox.critical(self, "Error", f"{ValueError.args[0]}.")
+                    return
                 else:
                     execution_time = solver.getExecutionTime()*1000
                     steps = solver.getSteps()
@@ -274,7 +279,7 @@ class open_methods_input(QWidget):
                 try:
                     solver.modified(equation, x_0, relative_error, max_iterations, significant_figures)
                 except ValueError:
-                    QMessageBox.critical(self, "Error", f"{ValueError}.")
+                    QMessageBox.critical(self, "Error", f"{ValueError.args[0]}.")
                 else:
                     execution_time = solver.getExecutionTime()*1000
                     steps = solver.getSteps()
