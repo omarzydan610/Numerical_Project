@@ -10,7 +10,7 @@ class Plotter:
 
     def _generate_x_range(self):
         x = sp.symbols('x')
-        equation = self.equation.replace('e', f"{sp.E}")  
+        equation = self.equation.replace('e', f"{sp.E}")
         expr = sp.sympify(equation)
         f = sp.lambdify(x, expr, "numpy")
 
@@ -34,12 +34,12 @@ class Plotter:
 
     def plot_equation(self):
         x = sp.symbols('x')
-        equation = self.equation.replace('e', f"{sp.E}")  
+        equation = self.equation.replace('e', f"{sp.E}")
         expr = sp.sympify(equation)
         f = sp.lambdify(x, expr, "numpy")
         x_vals = np.linspace(self.x_range[0], self.x_range[1], 400)
         if expr.is_constant():
-            y_vals = np.full_like(x_vals, expr.evalf())  
+            y_vals = np.full_like(x_vals, expr.evalf())
         else:
             y_vals = f(x_vals)
         plt.figure(figsize=(8, 6))
@@ -55,18 +55,42 @@ class Plotter:
 
     def plot_g_x(self, equation):
         x = sp.symbols('x')
-        equation_f = self.equation.replace('e', f"{sp.E}")  
+        equation_f = self.equation.replace('e', f"{sp.E}")
         equation_g = equation.replace('e', f"{sp.E}")
         expr_f = sp.sympify(equation_f)
         expr_g = sp.sympify(equation_g)
         f = sp.lambdify(x, expr_f, "numpy")
         g = sp.lambdify(x, expr_g, "numpy")
-        x_vals = np.linspace(self.x_range[0], self.x_range[1], 400)
+
+        def find_intersections(func1, func2):
+            def diff_func(x_val):
+                return func1(x_val) - func2(x_val)
+
+            guesses = np.linspace(self.x_range[0], self.x_range[1], 400)
+            intersections = []
+            for guess in guesses:
+                try:
+                    intersection = fsolve(diff_func, guess)[0]
+                    if intersection not in intersections and np.isclose(diff_func(intersection), 0):
+                        intersections.append(intersection)
+                except:
+                    pass
+            return intersections
+
+        intersections = find_intersections(f, g)
+        if intersections:
+            min_intersect, max_intersect = min(intersections), max(intersections)
+            x_range = (min_intersect - 1, max_intersect + 1)
+        else:
+            x_range = self.x_range
+
+        x_vals = np.linspace(x_range[0], x_range[1], 400)
         if expr_f.is_constant():
-            y_vals_f = np.full_like(x_vals, expr_f.evalf())  
+            y_vals_f = np.full_like(x_vals, expr_f.evalf())
         else:
             y_vals_f = f(x_vals)
         y_vals_g = g(x_vals)
+
         plt.figure(figsize=(8, 6))
         plt.plot(x_vals, y_vals_f, label=self.equation, color='b')
         plt.plot(x_vals, y_vals_g, label=equation, color='r')
