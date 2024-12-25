@@ -10,8 +10,7 @@ class Plotter:
 
     def _generate_x_range(self):
         x = sp.symbols('x')
-        equation = self.equation.replace('e', f"{sp.E}")
-        expr = sp.sympify(equation)
+        expr = sp.sympify(self.equation)
         f = sp.lambdify(x, expr, "numpy")
 
         def find_roots(func):
@@ -34,14 +33,20 @@ class Plotter:
 
     def plot_equation(self):
         x = sp.symbols('x')
-        equation = self.equation.replace('e', f"{sp.E}")
-        expr = sp.sympify(equation)
-        f = sp.lambdify(x, expr, "numpy")
+        expr = sp.sympify(self.equation)  # Parse the equation
+        f = sp.lambdify(x, expr, "numpy")  # Lambdify to numpy
+
+        # Generate x values for plotting
         x_vals = np.linspace(self.x_range[0], self.x_range[1], 400)
-        if expr.is_constant():
-            y_vals = np.full_like(x_vals, expr.evalf())
-        else:
-            y_vals = f(x_vals)
+
+        # Evaluate y values for the equation
+        try:
+            y_vals = f(x_vals)  # Function applied to x values
+        except Exception as e:
+            print(f"Error evaluating function: {e}")
+            return
+
+        # Plotting the equation
         plt.figure(figsize=(8, 6))
         plt.plot(x_vals, y_vals, label=self.equation, color='b')
         plt.title(f"Plot of the equation: {self.equation}")
@@ -55,10 +60,8 @@ class Plotter:
 
     def plot_g_x(self, equation):
         x = sp.symbols('x')
-        equation_f = self.equation.replace('e', f"{sp.E}")
-        equation_g = equation.replace('e', f"{sp.E}")
-        expr_f = sp.sympify(equation_f)
-        expr_g = sp.sympify(equation_g)
+        expr_f = sp.sympify(self.equation)
+        expr_g = sp.sympify(equation)
         f = sp.lambdify(x, expr_f, "numpy")
         g = sp.lambdify(x, expr_g, "numpy")
 
@@ -85,16 +88,13 @@ class Plotter:
             x_range = self.x_range
 
         x_vals = np.linspace(x_range[0], x_range[1], 400)
-        if expr_f.is_constant():
-            y_vals_f = np.full_like(x_vals, expr_f.evalf())
-        else:
-            y_vals_f = f(x_vals)
+        y_vals_f = f(x_vals)
         y_vals_g = g(x_vals)
 
         plt.figure(figsize=(8, 6))
         plt.plot(x_vals, y_vals_f, label=self.equation, color='b')
         plt.plot(x_vals, y_vals_g, label=equation, color='r')
-        plt.title(f"Plot of the equations: g(x) = {self.equation} ")
+        plt.title(f"Plot of the equations: g(x) = {self.equation} and f(x) = {equation}")
         plt.xlabel('x')
         plt.ylabel('y')
         plt.axhline(0, color='black', linewidth=2)
@@ -102,3 +102,7 @@ class Plotter:
         plt.grid(True)
         plt.legend()
         plt.show()
+
+# Example usage:
+plotter = Plotter("2**x")
+plotter.plot_equation()
