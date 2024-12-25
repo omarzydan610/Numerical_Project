@@ -275,8 +275,8 @@ class Bracketing_Methods_Input(QWidget):
             solver = Bisection()
             try:
                 solver.solve(equation,x_lower, x_upper, relative_error,max_iterations, significant_figures)
-            except ValueError:
-                QMessageBox.critical(self, "Error", f"{str(ValueError) }")  
+            except ValueError as e:
+                QMessageBox.critical(self, "Error", f"{str(e) }")  
                 return
             root = solver.getSolution()
             method = self.method
@@ -291,8 +291,8 @@ class Bracketing_Methods_Input(QWidget):
             solver = FalsePosition()
             try:
                 solver.solve(equation,x_lower, x_upper, relative_error,max_iterations, significant_figures)
-            except ValueError:
-                QMessageBox.critical(self, "Error", f"{ str(ValueError) }")  
+            except ValueError as e:
+                QMessageBox.critical(self, "Error", f"{ str(e) }")  
                 return
             root = solver.getSolution()
             method = self.method
