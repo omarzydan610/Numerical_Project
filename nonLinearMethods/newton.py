@@ -14,7 +14,7 @@ class Newton:
 
     def getSolution(self):
         return self.res
-      
+    
     def getExecutionTime(self):
         return self.time
     
