@@ -81,14 +81,18 @@ class Secant:
 
 
 # # #testcase
+func = "e^(-x)"
 
-# fun = "sin(x) - 6*x**2 + 11*x - 6.1"    #string come from gui
+
+fun = "sin(x) "    #string come from gui
 
 
-# solver = Secant()
-# solver.set_function(fun)
-
-# root = solver.solve(x0=2.5,x1=3.5, max_iteration=3, tolerance=0.0001, significantFigures=5)
-
+solver = Secant()
+solver.set_function(fun)
+try:
+    root = solver.solve(x0=0.1,  x1=3.0416, max_iteration=3, tolerance=0.0001, significantFigures=5)
+except ValueError as e:
+    print(f"An error occurred: {e}")
+#
 # print("Test Root found:", root)
 # print("Steps:\n", solver.steps)

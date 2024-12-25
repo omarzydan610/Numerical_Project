@@ -77,9 +77,11 @@ class Bisection:
 
 
 
-# func = "x**3-x-1"
-#
+# func = "e^(-x)"
 #
 # b = Bisection()
-# b.solve(func,1,2,1e-4,100,5)
-# print(b.getSteps())
+# try:
+#     b.solve(func, 1, 2, 1e-4, 100, 5)
+#     print(b.getSteps())
+# except ValueError as e:
+#     print(f"An error occurred: {e}")
