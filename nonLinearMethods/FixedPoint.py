@@ -45,7 +45,7 @@ class Fixed_point:
             x1 = float(self.gx(x0))
 
             if abs(x1) > 1e6:  # Divergence threshold
-              raise ValueError(f"Divergence detected: g(x) produced too large a value.{i}")
+              raise ValueError(f"Divergence detected: g(x) produced too large value at iteration {i}")
 
             if isinstance(x1, (float, int)) and (np.isnan(x1) or np.isinf(x1)):
                 raise ValueError("Invalid operation detected (e.g., division by zero or negative square root).")

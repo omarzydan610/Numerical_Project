@@ -40,7 +40,7 @@ class Secant:
         for i in range(1, max_iteration + 1):
             fx0 = round(self.fx(x0), significantFigures)
             fx1 = round(self.fx(x1), significantFigures)
-            
+
             if fx1 - fx0 == 0:
                 return (f"Division by zero encountered at iteration {i}.")
             

@@ -45,6 +45,9 @@ class FalsePosition:
 
         while (error >= tolerance and counter<=max_iterations):
 
+            if func(a)*func(b) > 0 :
+                raise ValueError("No root in the given interval")
+
             counter +=1
             prev_x = x
 

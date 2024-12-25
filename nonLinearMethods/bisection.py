@@ -42,6 +42,10 @@ class Bisection:
         start_time = time.time()
         self.steps += " i \t Xl \t Xu \t Xr \t sign \t εt %"
         while ( error >= tolerance and counter<=max_iterations):
+
+            if func(a)*func(b) > 0 :
+                raise ValueError("No root in the given interval")
+            
             prev_x = x
             x = (a + b) / 2
             x = round(x,SF)
