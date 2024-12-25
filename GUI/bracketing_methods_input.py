@@ -280,7 +280,7 @@ class Bracketing_Methods_Input(QWidget):
                 return
             root = solver.getSolution()
             method = self.method
-            execution_time = solver.getExcutionTime()*1000
+            execution_time = solver.getExcutionTime()
             steps = solver.getSteps()
             iterations = solver.getIterations()
             sf = solver.getcorrectSF()
@@ -297,7 +297,7 @@ class Bracketing_Methods_Input(QWidget):
                 return
             root = solver.getSolution()
             method = self.method
-            execution_time = solver.getExcutionTime()*1000
+            execution_time = solver.getExcutionTime()
             steps = solver.getSteps()
             iterations = solver.getIterations()
             sf = solver.getcorrectSF()

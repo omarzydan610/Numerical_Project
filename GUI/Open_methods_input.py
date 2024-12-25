@@ -273,7 +273,7 @@ class open_methods_input(QWidget):
                     QMessageBox.critical(self, "Error", f"{str(e)}.")
                     return
                 else:
-                    execution_time = solver.getExecutionTime()*1000
+                    execution_time = solver.getExecutionTime()
                     steps = solver.getSteps()
                     iterations = solver.getIterations()
                     root = solver.getSolution()
@@ -288,7 +288,7 @@ class open_methods_input(QWidget):
                 except ValueError as e:
                     QMessageBox.critical(self, "Error", f"{str(e)}.")
                 else:
-                    execution_time = solver.getExecutionTime()*1000
+                    execution_time = solver.getExecutionTime()
                     steps = solver.getSteps()
                     iterations = solver.getIterations()
                     root = solver.getSolution()
