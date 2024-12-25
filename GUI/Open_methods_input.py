@@ -255,6 +255,9 @@ class open_methods_input(QWidget):
                 except ValueError as e:
                     QMessageBox.critical(self, "Error", f"{str(e)}")
                     return
+                except OverflowError :
+                    QMessageBox.critical(self, "Error", f"Over flow error")
+                    return
                 execution_time = solver.getExecutionTime()
                 steps = solver.getSteps()
                 iterations = solver.getIterations()
