@@ -66,7 +66,7 @@ class Newton:
             newx = round(newx, SF)
 
             if newx != 0:
-                error = abs(newx - oldx) / newx
+                error = abs((newx - oldx) / newx)
             
             counter += 1
             oldx = newx
@@ -107,7 +107,7 @@ class Newton:
             newx = round(newx, SF)
 
             if newx != 0:
-                error = abs(newx - oldx) / newx
+                error = abs((newx - oldx) / newx)
             
             counter += 1
             oldx = newx
