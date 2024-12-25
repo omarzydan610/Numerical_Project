@@ -79,7 +79,7 @@ class NonlinearSolveScreen(QWidget):
 
         # Significant Figures Layout
         sig_fig_layout = QHBoxLayout()
-        self.sig_fig_label = QLabel("Significant Figures:")
+        self.sig_fig_label = QLabel("Correct Significant Figures:")
         self.sig_fig_label.setStyleSheet("color:black;")
         self.sig_fig_field = QLineEdit()
         self.sig_fig_field.setReadOnly(True)
