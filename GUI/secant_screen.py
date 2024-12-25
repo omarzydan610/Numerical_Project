@@ -263,7 +263,11 @@ class secant_Input(QWidget):
 
 
         solver = Secant()
-        solver.set_function(equation)
+        try:
+            solver.set_function(equation)
+        except  ValueError:
+            QMessageBox.critical(self, "Error", f"{ValueError.args[0]}")
+            return
         root = solver.solve(x0=x_upper, x1=x_lower, max_iteration=max_iterations, tolerance=relative_error, significantFigures=significant_figures)
         method = self.method
         execution_time = solver.getExecutionTime()
