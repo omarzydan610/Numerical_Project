@@ -47,7 +47,7 @@ class Bisection:
             x = round(x,SF)
             counter+=1
             if(x != 0):
-                error = abs((x - prev_x)) / x
+                error = abs((x - prev_x) / x)
             signn = "(+)"
             if(func(x) < 0):
                 signn = "(-)"

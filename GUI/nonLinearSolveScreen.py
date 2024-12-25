@@ -76,6 +76,24 @@ class NonlinearSolveScreen(QWidget):
         self.iterations_field.setFixedWidth(text_width)
         
         container_layout.addLayout(iterations_layout)
+
+        # Significant Figures Layout
+        sig_fig_layout = QHBoxLayout()
+        self.sig_fig_label = QLabel("Correct Significant Figures:")
+        self.sig_fig_label.setStyleSheet("color:black;")
+        self.sig_fig_field = QLineEdit()
+        self.sig_fig_field.setReadOnly(True)
+        self.sig_fig_field.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.sig_fig_field.setStyleSheet("color:black;")
+        
+        sig_fig_layout.addWidget(self.sig_fig_label)
+        sig_fig_layout.addWidget(self.sig_fig_field)
+        
+        font_metrics = QFontMetrics(self.sig_fig_field.font())
+        text_width = font_metrics.horizontalAdvance(self.sig_fig_field.text()) + 30  
+        self.sig_fig_field.setFixedWidth(text_width)
+        
+        container_layout.addLayout(sig_fig_layout)
         
         container_widget = QWidget()
         container_widget.setLayout(container_layout)
@@ -86,7 +104,7 @@ class NonlinearSolveScreen(QWidget):
         main_layout.addWidget(self.steps_button, alignment=Qt.AlignmentFlag.AlignHCenter)
         
         self.error_message = QLabel("")
-        self.error_message.setStyleSheet("""
+        self.error_message.setStyleSheet(""" 
             max-width: 650px;
             height: 50px;
             background-color: #439A97;
@@ -107,7 +125,7 @@ class NonlinearSolveScreen(QWidget):
 
         self.setLayout(main_layout)
 
-        self.setStyleSheet("""
+        self.setStyleSheet(""" 
             QWidget{
                 font-size: 20px;
                 font-family: Arial, sans-serif;
@@ -136,9 +154,8 @@ class NonlinearSolveScreen(QWidget):
             }
         """)
 
-    def set_solution(self, method, root, execution_time, steps, iterations):
+    def set_solution(self, method, root, execution_time, steps, iterations, significant_figures):
         self.steps = steps
-        
         
         if isinstance(root, str) and "No Solution" in root:
             self.error_message.setText(root)
@@ -152,6 +169,8 @@ class NonlinearSolveScreen(QWidget):
             self.steps_button.setVisible(False)
             self.iterations_label.setVisible(False)
             self.iterations_field.setVisible(False)
+            self.sig_fig_label.setVisible(False)
+            self.sig_fig_field.setVisible(False)
             return
         else:
             self.error_message.setVisible(False)
@@ -164,6 +183,8 @@ class NonlinearSolveScreen(QWidget):
             self.steps_button.setVisible(True)
             self.iterations_label.setVisible(True)
             self.iterations_field.setVisible(True)
+            self.sig_fig_label.setVisible(True)
+            self.sig_fig_field.setVisible(True)
 
         self.method_label.setText(f"Selected method: {method}")
         self.root_field.setText(f"{root}")
@@ -181,6 +202,12 @@ class NonlinearSolveScreen(QWidget):
         font_metrics = QFontMetrics(self.iterations_field.font())
         text_width = font_metrics.horizontalAdvance(f"{iterations}") + 30
         self.iterations_field.setFixedWidth(text_width)
+
+        # Set Significant Figures
+        self.sig_fig_field.setText(f"{significant_figures}")
+        font_metrics = QFontMetrics(self.sig_fig_field.font())
+        text_width = font_metrics.horizontalAdvance(f"{significant_figures}") + 30
+        self.sig_fig_field.setFixedWidth(text_width)
 
     def home(self):
         self.stacked_widget.setCurrentIndex(0)
