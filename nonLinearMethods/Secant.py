@@ -37,7 +37,7 @@ class Secant:
             fx1 = round(self.fx(x1), significantFigures)
             
             if fx1 - fx0 == 0:
-                raise ZeroDivisionError ("Division by zero encountered at iteration {i}.")
+                return (f"Division by zero encountered at iteration {i}.")
             
           
             xi = x1 - fx1 * (x1 - x0) / (fx1 - fx0)
@@ -45,7 +45,7 @@ class Secant:
             
           
             if xi != xi or xi == float('inf') or xi == float('-inf'):
-               raise KeyError ("Error: Invalid result encountered at iteration {i}.")
+               return (f"Error: Invalid result encountered at iteration {i}.")
 
             relative_error = abs(xi - x1) / abs(xi) if xi != 0 else float('inf')
         
@@ -81,18 +81,18 @@ class Secant:
 
 
 # # #testcase
-func = "e^(-x)"
-
-
-fun = "sin(x) "    #string come from gui
-
-
-solver = Secant()
-solver.set_function(fun)
-try:
-    root = solver.solve(x0=0.1,  x1=3.0416, max_iteration=3, tolerance=0.0001, significantFigures=5)
-except ValueError as e:
-    print(f"An error occurred: {e}")
+# func = "e^(-x)"
+#
+#
+# fun = "sin(x) "    #string come from gui
+#
+#
+# solver = Secant()
+# solver.set_function(fun)
+# try:
+#     root = solver.solve(x0=0.1,  x1=3.0416, max_iteration=3, tolerance=0.0001, significantFigures=5)
+# except ValueError as e:
+#     print(f"An error occurred: {e}")
 #
 # print("Test Root found:", root)
 # print("Steps:\n", solver.steps)

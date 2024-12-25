@@ -264,19 +264,19 @@ class secant_Input(QWidget):
 
         solver = Secant()
         solver.set_function(equation)
-        try:
-            root = solver.solve(x0=x_upper, x1=x_lower, max_iteration=max_iterations, tolerance=relative_error,significantFigures=significant_figures)
-        except  ValueError:
-            print("error")
-            QMessageBox.critical(self, "Error", f"{ValueError.args[0]}")
-            return
 
-        method = self.method
-        execution_time = solver.getExecutionTime()
-        steps = solver.getSteps()
-        iterations = solver.getIterations()
-        self.stacked_widget.setCurrentIndex(8)
-        self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations)
+        root = solver.solve(x0=x_upper, x1=x_lower, max_iteration=max_iterations, tolerance=relative_error,significantFigures=significant_figures)
+        if " " in root :
+            print("error")
+            QMessageBox.critical(self, "Error", f"{root}")
+
+        else:
+            method = self.method
+            execution_time = solver.getExecutionTime()
+            steps = solver.getSteps()
+            iterations = solver.getIterations()
+            self.stacked_widget.setCurrentIndex(8)
+            self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations)
         
 
 
