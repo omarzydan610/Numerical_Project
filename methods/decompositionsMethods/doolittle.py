@@ -72,6 +72,7 @@ x vector = {self.x}
             for i in range(n+1,self.n):
                 if self.A[i,n] != 0:
                     self.A[[n,i],:]=self.A[[i,n],:]
+                    self.b[n],self.b[i]=self.b[i],self.b[n]
                     break
         return self.A
     
@@ -100,7 +101,6 @@ x vector = {self.x}
                 sum_var += self.L[i, j] * self.y[j]
             self.y[i] = self.b[i] - sum_var
 
-        
         for i in range(self.n - 1, -1, -1):
             sum_var = 0
             for j in range(i + 1, self.n):  # Replace sum with loop
