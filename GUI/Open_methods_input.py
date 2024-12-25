@@ -295,6 +295,8 @@ class open_methods_input(QWidget):
 
 
 def is_valid_equation(equation: str) -> bool:
+    if("e^" in equation):
+        return False
     try:
         sympify(equation)
         return True

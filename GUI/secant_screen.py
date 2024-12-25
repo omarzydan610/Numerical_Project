@@ -282,6 +282,8 @@ class secant_Input(QWidget):
 
 
 def is_valid_equation(equation: str) -> bool:
+    if ("e^" in equation):
+        return False
     try:
         sympify(equation)
         return True
