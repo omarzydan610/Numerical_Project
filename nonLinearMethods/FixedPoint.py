@@ -1,5 +1,6 @@
 import time
 import numpy as np
+import math
 from sympy import sympify, lambdify, symbols
 
 class Fixed_point:
@@ -10,6 +11,7 @@ class Fixed_point:
         self.gx = None
         self.iteration = 0
         self.tolerance = 0
+        self.correctSF = 0
 
     def getIterations(self):
         return self.iteration
@@ -22,6 +24,9 @@ class Fixed_point:
     
     def getSteps(self):
         return self.steps
+    
+    def getCorrectSF(self):
+        return self.correctSF
 
     def set_function(self, gx):
         gui_str = gx   #string come from gui
@@ -54,6 +59,10 @@ class Fixed_point:
                 self.tolerance = relative_error
                 endTime = time.perf_counter_ns()
                 self.time = endTime - startTime
+                try:
+                    self.correctSF = math.floor(2 - math.log10(relative_error / 0.5))
+                except ValueError as e:
+                    self.correctSF = float('inf')
                 return f"{self.root:.{significantFigures}f}"
 
             x0 = x1
@@ -64,6 +73,10 @@ class Fixed_point:
 
         endTime = time.perf_counter_ns()
         self.time = endTime - startTime
+        try:
+            self.correctSF = math.floor(2 - math.log10(relative_error / 0.5))
+        except ValueError as e:
+            self.correctSF = float('inf')
         return f"{self.root:.{significantFigures}f}"
 
 

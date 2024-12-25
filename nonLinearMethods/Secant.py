@@ -1,4 +1,5 @@
 import time
+import math
 from sympy import sympify, lambdify, symbols
 
 
@@ -10,6 +11,7 @@ class Secant:
         self.iteration = 0
         self.tolerance = 0
         self.fx = None
+        self.correctSF = 0
     
     def set_function(self, fx): 
         gui_str = fx    #string come from gui
@@ -29,6 +31,9 @@ class Secant:
     
     def getSteps(self):
         return self.steps
+    
+    def getCorrectSF(self):
+        return self.correctSF
 
     def solve(self, x0, x1, max_iteration, tolerance, significantFigures):
         startTime = time.perf_counter_ns()
@@ -63,6 +68,10 @@ class Secant:
                 self.iteration = i
                 self.tolerance = relative_error
                 self.time = time.perf_counter_ns() - startTime
+                try:
+                    self.correctSF = math.floor(2 - math.log10(relative_error / 0.5))
+                except ValueError as e:
+                    self.correctSF = float('inf')
                 return f"{self.root:.{significantFigures}f}"
             
             x0 = x1 
@@ -72,6 +81,10 @@ class Secant:
         self.iteration = max_iteration
         self.tolerance = relative_error
         self.time = time.perf_counter_ns() - startTime
+        try:
+            self.correctSF = math.floor(2 - math.log10(relative_error / 0.5))
+        except ValueError as e:
+            self.correctSF = float('inf')
         return f"{self.root:.{significantFigures}f}"
 
 
