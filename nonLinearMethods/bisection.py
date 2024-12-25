@@ -31,12 +31,16 @@ class Bisection:
         return self.steps
 
     def solve(self,func,a, b, tolerance,max_iterations, SF):
+        X = symbols('x')
+        expr_str = func
+        expr = sympify(expr_str)
+        func = lambdify(X, expr)
         x = a
         prev_x = 0  
         error = 1
         counter = 0
         start_time = time.time()
-        self.steps += " i \t Xl \t Xu \t Xr \t εt %"
+        self.steps += " i \t Xl \t Xu \t Xr \t sign \t εt %"
         while ( error >= tolerance and counter<=max_iterations):
             prev_x = x
             x = (a + b) / 2
@@ -72,11 +76,10 @@ class Bisection:
 
 
 
-x = symbols('x')
-expr_str = "x**3-x-1"
-expr = sympify(expr_str)
-func = lambdify(x, expr)
 
-b = Bisection()
-b.solve(func,1,2,1e-4,100,5)
-print(b.getSteps())
+# func = "x**3-x-1"
+#
+#
+# b = Bisection()
+# b.solve(func,1,2,1e-4,100,5)
+# print(b.getSteps())

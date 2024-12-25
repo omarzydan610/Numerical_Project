@@ -3,7 +3,6 @@ from PyQt6.QtCore import Qt
 from pathlib import Path
 from PyQt6.QtGui import QIcon, QPixmap, QDoubleValidator
 from plot.plotter import Plotter
-from logic.solve_bracketing_methods import Bracketing_methods
 from sympy import sympify, SympifyError
 from nonLinearMethods.Secant import Secant
 

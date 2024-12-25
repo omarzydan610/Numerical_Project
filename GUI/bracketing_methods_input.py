@@ -3,8 +3,9 @@ from PyQt6.QtCore import Qt
 from pathlib import Path
 from PyQt6.QtGui import QIcon, QPixmap, QDoubleValidator
 from plot.plotter import Plotter
-from logic.solve_bracketing_methods import Bracketing_methods
 from sympy import sympify, SympifyError
+from nonLinearMethods.bisection import Bisection
+from nonLinearMethods.regulaFalsi import FalsePosition
 
 
 
@@ -261,14 +262,6 @@ class Bracketing_Methods_Input(QWidget):
             QMessageBox.critical(self, "Error", "Invalid equation")
             return
 
-        solver = Bracketing_methods(
-            x_lower=x_lower,
-            x_upper=x_upper,
-            significantFigures=significant_figures,
-            relativeError=relative_error,
-            maxNumOfIterations=max_iterations,
-            equation=equation
-        )
         print(
             x_lower ,
         x_upper ,
@@ -279,25 +272,26 @@ class Bracketing_Methods_Input(QWidget):
         )
 
         if self.method == "Bisection":
-            solver.bisection()
-            root = solver.get_root()
+            solver = Bisection()
+            solver.solve(equation,x_lower, x_upper, relative_error,max_iterations, significant_figures)
+            root = solver.getSolution()
             method = self.method
-            execution_time = solver.get_execution_time()*1000
-            steps = solver.get_steps()
-            iterations = solver.get_iterations()
+            execution_time = solver.getExcutionTime()*1000
+            steps = solver.getSteps()
+            iterations = solver.getIterations()
             self.stacked_widget.setCurrentIndex(8)
             self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations)
             # method, root, execution_time, steps, iterations
         elif self.method == "False-Position":
-            solver.false_position()
-            root = solver.get_root()
+            solver = FalsePosition()
+            solver.solve(equation,x_lower, x_upper, relative_error,max_iterations, significant_figures)
+            root = solver.getSolution()
             method = self.method
-            execution_time = solver.get_execution_time()*1000
-            steps = solver.get_steps()
-            iterations = solver.get_iterations()
+            execution_time = solver.getExcutionTime()*1000
+            steps = solver.getSteps()
+            iterations = solver.getIterations()
             self.stacked_widget.setCurrentIndex(8)
             self.stacked_widget.currentWidget().set_solution( method, root, execution_time, steps, iterations)
-        
 
 
 def is_valid_equation(equation: str) -> bool:

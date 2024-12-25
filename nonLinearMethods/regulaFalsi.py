@@ -31,7 +31,11 @@ class FalsePosition:
         return self.steps
 
     def solve(self,func,a,b,tolerance,max_iterations, SF):
-     
+        X = symbols('x')
+        expr_str = func
+        expr = sympify(expr_str)
+        func = lambdify(X, expr)
+
         x = a
         prev_x = 0  
         error = 1
@@ -81,10 +85,9 @@ class FalsePosition:
 
 
 
-x = symbols('x')
-expr_str = "x**3-3*x+1"
-expr = sympify(expr_str)
-func = lambdify(x, expr)
+
+func = "x**3-3*x+1"
+
 
 s = FalsePosition()
 s.solve(func,0,1,1e-4,100,5)
