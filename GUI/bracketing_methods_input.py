@@ -273,7 +273,11 @@ class Bracketing_Methods_Input(QWidget):
 
         if self.method == "Bisection":
             solver = Bisection()
-            solver.solve(equation,x_lower, x_upper, relative_error,max_iterations, significant_figures)
+            try:
+                solver.solve(equation,x_lower, x_upper, relative_error,max_iterations, significant_figures)
+            except ValueError:
+                QMessageBox.critical(self, "Error", f"{str(ValueError) }")  
+                return
             root = solver.getSolution()
             method = self.method
             execution_time = solver.getExcutionTime()*1000
@@ -284,7 +288,11 @@ class Bracketing_Methods_Input(QWidget):
             # method, root, execution_time, steps, iterations
         elif self.method == "False-Position":
             solver = FalsePosition()
-            solver.solve(equation,x_lower, x_upper, relative_error,max_iterations, significant_figures)
+            try:
+                solver.solve(equation,x_lower, x_upper, relative_error,max_iterations, significant_figures)
+            except ValueError:
+                QMessageBox.critical(self, "Error", f"{ str(ValueError) }")  
+                return
             root = solver.getSolution()
             method = self.method
             execution_time = solver.getExcutionTime()*1000
