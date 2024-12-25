@@ -40,7 +40,7 @@ class FalsePosition:
         prev_x = 0  
         error = 1
         counter = 0
-        start_time = time.time()
+        start_time = time.perf_counter_ns()
         self.steps += " i \t Xl \t Xu \t Xr \t εt %"
 
         while (error >= tolerance and counter<=max_iterations):
@@ -80,7 +80,7 @@ class FalsePosition:
             self.correctSF = float('inf')
 
         self.error = error*100
-        end_time = time.time()
+        end_time = time.perf_counter_ns()
         self.time = end_time - start_time
         self.iterations = counter
         self.res = f"%{SF/10}f" % x
@@ -89,9 +89,9 @@ class FalsePosition:
 
 
 
-func = "x**3-3*x+1"
+# func = "x**3-3*x+1"
 
 
-s = FalsePosition()
-s.solve(func,0,1,1e-4,100,5)
-print(s.getSteps())
+# s = FalsePosition()
+# s.solve(func,0,1,1e-4,100,5)
+# print(s.getSteps())

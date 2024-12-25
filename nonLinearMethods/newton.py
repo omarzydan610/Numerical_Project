@@ -53,7 +53,7 @@ class Newton:
         newx = x
         counter = 0
         error = 1
-        start_time = time.time()
+        start_time = time.perf_counter_ns()
         self.steps += " i \t xi \t  εt %"
         self.steps += f"\n {counter} \t {x} \t {error * 100}"
         
@@ -76,7 +76,7 @@ class Newton:
         if counter > max_iterations and error > tolerance:
             raise ValueError("The Method diverges.")
 
-        end_time = time.time()
+        end_time = time.perf_counter_ns()
         self.time = end_time - start_time
         self.iterations = counter
 
@@ -94,7 +94,7 @@ class Newton:
         newx = x
         counter = 0
         error = 1
-        start_time = time.time()
+        start_time = time.perf_counter_ns()
         self.steps += " i \t xi \t  εt %"
         self.steps += f"\n {counter} \t {x} \t {error * 100}"
         
@@ -117,7 +117,7 @@ class Newton:
         if counter > max_iterations and error > tolerance:
             raise ValueError("The Method diverges.")
 
-        end_time = time.time()
+        end_time = time.perf_counter_ns()
         self.time = end_time - start_time
         self.iterations = counter
 
