@@ -19,7 +19,7 @@ class Matrix(QWidget):
         self.methodName_layout = QHBoxLayout()
         self.backButton_latout = QHBoxLayout()
 
-        pixmap = QPixmap(str(Path("Numerical_lab/images/back_icon.png").resolve())).scaled(24, 24)  # Resize to 24x24 pixels
+        pixmap = QPixmap(str(Path("images/back_icon.png").resolve())).scaled(24, 24)  # Resize to 24x24 pixels
         icon = QIcon(pixmap)
 
         back_button = QPushButton(self)

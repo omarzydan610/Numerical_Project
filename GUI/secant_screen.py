@@ -22,7 +22,7 @@ class secant_Input(QWidget):
         self.methodName_layout = QHBoxLayout()
         self.backButton_layout = QHBoxLayout()
 
-        pixmap = QPixmap(str(Path("Numerical_lab/images/back_icon.png").resolve())).scaled(16, 16)  # Resize to 16x16 pixels
+        pixmap = QPixmap(str(Path("images/back_icon.png").resolve())).scaled(16, 16)  # Resize to 16x16 pixels
         icon = QIcon(pixmap)
 
         back_button = QPushButton(self)
