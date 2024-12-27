@@ -39,7 +39,7 @@ class Bisection:
         prev_x = 0  
         error = 1
         counter = 0
-        start_time = time.time()
+        start_time = time.perf_counter_ns()
         self.steps += " i \t Xl \t Xu \t Xr \t sign \t εt %"
         while ( error >= tolerance and counter<=max_iterations):
 
@@ -72,7 +72,7 @@ class Bisection:
             self.correctSF = float('inf')
 
         self.error = error*100
-        end_time = time.time()
+        end_time = time.perf_counter_ns()
         self.time = end_time - start_time
         self.iterations = counter
         self.res = f"%{SF/10}f" % x
